@@ -1,0 +1,4 @@
+info: link-defaults
+    spec: rfc8414
+        type: dfn
+            text: issuer

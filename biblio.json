@@ -1,0 +1,55 @@
+{
+  "uma-trust": {
+    "authors": [
+      "Wouter Termont",
+      "Ruben Dedecker",
+      "Wout Slabbinck",
+      "Beatriz Esteves",
+      "Ben De Meester",
+      "Ruben Verborgh"
+    ],
+    "date": "5 November 2024",
+    "href": "https://arxiv.org/abs/2411.05622",
+    "title": "From Resource Control to Digital Trust with User-Managed Access",
+    "publisher": "SolidLab Flanders"
+  },
+  "oauth20": {
+    "aliasOf": "rfc6749"
+  },
+  "uma-grant": {
+    "authors": [
+      "Maciej Machulak",
+      "Justin Richer",
+      "Eve Maler, Ed."
+    ],
+    "date": "7 January 2018",
+    "href": "https://docs.kantarainitiative.org/uma/wg/rec-oauth-uma-grant-2.0.html",
+    "title": "User-Managed Access (UMA) 2.0 Grant for OAuth 2.0 Authorization",
+    "status": "Recommendation",
+    "publisher": "Kantara Initiative",
+    "deliveredBy": [
+      {
+        "shortname": "User-Managed Access Work Group",
+        "url": "https://kantara.atlassian.net/wiki/spaces/uma"
+      }
+    ]
+  },
+  "uma-fed": {
+    "authors": [
+      "Maciej Machulak",
+      "Justin Richer",
+      "Eve Maler, Ed."
+    ],
+    "date": "7 January 2018",
+    "href": "https://docs.kantarainitiative.org/uma/wg/rec-oauth-uma-federated-authz-2.0.html",
+    "title": "Federated Authorization for User-Managed Access (UMA) 2.0",
+    "status": "Recommendation",
+    "publisher": "Kantara Initiative",
+    "deliveredBy": [
+      {
+        "shortname": "User-Managed Access Work Group",
+        "url": "https://kantara.atlassian.net/wiki/spaces/uma"
+      }
+    ]
+  }
+}

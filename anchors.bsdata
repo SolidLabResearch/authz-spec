@@ -1,0 +1,21 @@
+spec: rfc6749; type: dfn; urlPrefix: https://datatracker.ietf.org/doc/html/rfc6749
+    urlPrefix: #section-1:~:text=
+        text: client; url: client,-An%20application
+        text: resource owner; url: resource%20owner,-An%20entity
+        text: resource server; url: resource%20server,-The%20server
+        text: authorization server; url: authorization%20server,-The%20server
+        text: authorization grant; url: 1.3.-,Authorization%20Grant,-An%20authorization%20grant
+        
+spec: rfc8414; type: dfn; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8414
+    urlPrefix: #section-2:~:text=
+        text: issuer; url: issuer,-REQUIRED
+
+spec: uma-fed; type: dfn; urlPrefix: https://docs.kantarainitiative.org/uma/wg/rec-oauth-uma-federated-authz-2.0.html
+    urlPrefix: #UMA-Impl:~:text=
+        text: protection API; url: protection%20API,-The%20API
+    urlPrefix: #as-config
+        text: resource registration endpoint; url: resource_registration_endpoint
+        text: permission endpoint; url: permission_endpoint
+        text: introspection endpoint; url: introspection_endpoint
+    urlPrefix: #resource-set-desc
+        text: resource description; url:;
