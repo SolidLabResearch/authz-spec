@@ -1,0 +1,28 @@
+name: Publish spec
+
+on:
+  pull_request: {}
+  push:
+    branches: [
+      level0,
+    ]
+
+jobs:
+  validate-and-publish:
+    name: Validate and Publish to TR
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "TIMESTAMP=$(date +"%Y%m%d%H%M%S")" >> $env:GITHUB_ENV
+      - uses: w3c/spec-prod@v2
+        with:
+          TOOLCHAIN: bikeshed # or respec
+          VALIDATE_LINKS: true
+          VALIDATE_MARKUP: true
+          BUILD_FAIL_ON: fatal
+          GH_PAGES_BRANCH: gh-pages
+          SOURCE: index.bs
+          DESTINATION: "spec/l0/$env.TIMESTAMP/index.html"
+          
