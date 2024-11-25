@@ -33,7 +33,7 @@ jobs:
           mkdir -p "${{ env.build_dir }}"
           pipx install --python $(which python) --quiet bikeshed
           bikeshed update
-          bikeshed "${{ matrix.spec.in }}" "${{ env.build_dir }}/index.html"
+          bikeshed spec "${{ matrix.spec.in }}" "${{ env.build_dir }}/index.html"
           echo "time=$(date +"%Y%m%d%H%M%S")" >> "$GITHUB_OUTPUT"
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
