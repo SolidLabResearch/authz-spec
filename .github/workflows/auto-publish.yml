@@ -7,22 +7,38 @@ on:
       level0,
     ]
 
+env:
+  build_dir: _gh_pages_build
+
 jobs:
-  validate-and-publish:
-    name: Validate and Publish to TR
+
+  build:
+    name: Validate and Publish
     runs-on: ubuntu-20.04
     permissions:
       contents: write
+    strategy:
+      matrix:
+        spec:
+          - in: index.bs
+            out: l0
+      fail-fast: true
     steps:
       - uses: actions/checkout@v4
-      - run: echo "TIMESTAMP=$(date +"%Y%m%d%H%M%S")" >> $env:GITHUB_ENV
-      - uses: w3c/spec-prod@v2
-        with:
-          TOOLCHAIN: bikeshed # or respec
-          VALIDATE_LINKS: true
-          VALIDATE_MARKUP: true
-          BUILD_FAIL_ON: fatal
-          GH_PAGES_BRANCH: gh-pages
-          SOURCE: index.bs
-          DESTINATION: "spec/l0/$env.TIMESTAMP/index.html"
+      - id: bikeshed
+        run: |
+          mkdir -p "${{ env.build_dir }}"
+          pipx install bikeshed --quiet
+          bikeshed update
+          bikeshed "${{ matrix.spec.in }}" "${{ env.build_dir }}/index.html
+          echo "time=$(date +"%Y%m%d%H%M%S")" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    - uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: "${{ env.build_dir }}"
+        target-folder: "specs/${{ matrix.spec.out }}"
+        commit-message: "publish: level 0 at ${{ steps.bikeshed.outputs.time }}"
+        branch: gh-pages
+        tag: "l0-${{ steps.bikeshed.outputs.time }}"
           
