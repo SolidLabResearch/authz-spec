@@ -21,18 +21,22 @@ jobs:
             out: l0
       fail-fast: true
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout branch
+        uses: actions/checkout@v4
+      - name: Set Python version
+        uses: actions/setup-python@v5
         with:
           python-version: '>=3.9'
-      - id: bikeshed
+      - name: Install & run Bikeshed
+        id: bikeshed
         run: |
           mkdir -p "${{ env.build_dir }}"
           pipx install --python $(which python) --quiet bikeshed
           bikeshed update
-          bikeshed "${{ matrix.spec.in }}" "${{ env.build_dir }}/index.html
+          bikeshed "${{ matrix.spec.in }}" "${{ env.build_dir }}/index.html"
           echo "time=$(date +"%Y%m%d%H%M%S")" >> "$GITHUB_OUTPUT"
-      - uses: JamesIves/github-pages-deploy-action@v4
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: "${{ env.build_dir }}"
           target-folder: "specs/${{ matrix.spec.out }}"
