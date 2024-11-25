@@ -3,16 +3,13 @@ name: Publish spec
 on:
   pull_request: {}
   push:
-    branches: [
-      level0,
-    ]
+    branches: [ level0 ]
 
 env:
   build_dir: _gh_pages_build
 
 jobs:
-
-  build:
+  build-and-deploy:
     name: Validate and Publish
     runs-on: ubuntu-20.04
     permissions:
@@ -32,13 +29,11 @@ jobs:
           bikeshed update
           bikeshed "${{ matrix.spec.in }}" "${{ env.build_dir }}/index.html
           echo "time=$(date +"%Y%m%d%H%M%S")" >> "$GITHUB_OUTPUT"
-
-  deploy:
-    - uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        folder: "${{ env.build_dir }}"
-        target-folder: "specs/${{ matrix.spec.out }}"
-        commit-message: "publish: level 0 at ${{ steps.bikeshed.outputs.time }}"
-        branch: gh-pages
-        tag: "l0-${{ steps.bikeshed.outputs.time }}"
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: "${{ env.build_dir }}"
+          target-folder: "specs/${{ matrix.spec.out }}"
+          commit-message: "publish: level 0 at ${{ steps.bikeshed.outputs.time }}"
+          branch: gh-pages
+          tag: "l0-${{ steps.bikeshed.outputs.time }}"
           
