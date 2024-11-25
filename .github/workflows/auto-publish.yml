@@ -28,7 +28,7 @@ jobs:
       - id: bikeshed
         run: |
           mkdir -p "${{ env.build_dir }}"
-          pipx install bikeshed --quiet
+          pipx install --python $(which python) --quiet bikeshed
           bikeshed update
           bikeshed "${{ matrix.spec.in }}" "${{ env.build_dir }}/index.html
           echo "time=$(date +"%Y%m%d%H%M%S")" >> "$GITHUB_OUTPUT"
