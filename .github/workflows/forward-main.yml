@@ -1,0 +1,24 @@
+
+##
+# This workflow merges every change in main also into the levelX branches.
+#
+# An alternative might be to write it out manually 
+# (e.g. as in auto-pull-request-creator, or with peter-evans/create-pull-request).
+##
+
+name: Forward merge main to levels
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # for testing
+
+jobs:
+  forward-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: NicholasBoll/action-forward-merge-pr@v1.1.1
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          branches: main+level0 #, main + level1 #, main + level2
+          prefix: 'chore: '
