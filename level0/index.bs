@@ -334,4 +334,3 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
   ...
 
   ISSUE: clarify claim token formats, and discuss advertising them with a parameter separate from uma profiles
-
