@@ -100,8 +100,8 @@ It is a working document, that has NOT been publically reviewed, but represents 
 
 The specification proposed in this document is being drafted in multiple stages. 
 
-- **Level 0**, specified in this current draft, describes the interfaces and protocols of the final prototype implementation presented in the white paper [[UMA-Trust inline]] [[UMA-Trust]]. It lays the groundwork for the general flow of the protocol.
-- **Level 1** build on Level 0, addressing some minor shortcomings discussed in the white paper, and optimising alignment with existing standards.
+- **Level 0** describes the interfaces and protocols of the final prototype implementation presented in the white paper [[UMA-Trust inline]] [[UMA-Trust]]. It lays the groundwork for the general flow of the protocol.
+- **Level 1**, specified in this current draft, builds on Level 0, addressing some minor shortcomings discussed in the white paper, and optimising alignment with existing standards.
 - **Level 2** and higher will build on Level 1, to cover the more extensive questions left open in the white paper.
 
 Comments regarding this document are welcome, via the [GitHub issue tracker](https://github.com/SolidLabResearch/authz-spec/issues/), but the editors do NOT guarantee that this feedback will be processed, or when.
@@ -334,3 +334,4 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
   ...
 
   ISSUE: clarify claim token formats, and discuss advertising them with a parameter separate from uma profiles
+

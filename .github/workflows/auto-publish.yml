@@ -31,7 +31,7 @@ jobs:
           base: ${{ github.ref }}
           filters: |
             level0: level0/**
-          # level1: level1/** 
+            level1: level1/** 
           # level2: level2/**
         id: filter
 
@@ -52,17 +52,14 @@ jobs:
       - name: Build Level 0
         if: steps.filter.outputs.level0 == 'true'
         run: bikeshed spec level0/index.bs "${{ env.build_dir }}"/level0/index.html
-        id: bikeshed
 
-      # - name: Build Level 1
-      #   if: steps.filter.outputs.level1 == 'true'
-      #   run: bikeshed spec level1/index.bs "${{ env.build_dir }}"/level1/index.html
-      #   id: bikeshed
+      - name: Build Level 1
+        if: steps.filter.outputs.level1 == 'true'
+        run: bikeshed spec level1/index.bs "${{ env.build_dir }}"/level1/index.html
 
       # - name: Build Level 2
       #   if: steps.filter.outputs.level2 == 'true'
       #   run: bikeshed spec level2/index.bs "${{ env.build_dir }}"/level2/index.html
-      #   id: bikeshed
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
