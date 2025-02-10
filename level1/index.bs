@@ -19,7 +19,7 @@ Title: Authorization for Data Spaces (A4DS)
 Shortname: A4DS
 
 Status: LD
-Level: 0
+Level: 1
 Work Status: exploring
 
 Editor: Wouter Termont, imec
