@@ -1,21 +1,26 @@
-spec: rfc6749; type: dfn; urlPrefix: https://datatracker.ietf.org/doc/html/rfc6749
-    urlPrefix: #section-1:~:text=
+urlPrefix: https://www.rfc-editor.org/rfc/; type: dfn
+    spec: rfc6749; urlPrefix: rfc6749#:~:text=
         text: client; url: client,-An%20application
         text: resource owner; url: resource%20owner,-An%20entity
         text: resource server; url: resource%20server,-The%20server
         text: authorization server; url: authorization%20server,-The%20server
-        text: authorization grant; url: 1.3.-,Authorization%20Grant,-An%20authorization%20grant
-        
-spec: rfc8414; type: dfn; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8414
-    urlPrefix: #section-2:~:text=
+    spec: rfc8414; urlPrefix: rfc8414#:~:text=
         text: issuer; url: issuer,-REQUIRED
 
-spec: uma-fed; type: dfn; urlPrefix: https://docs.kantarainitiative.org/uma/wg/rec-oauth-uma-federated-authz-2.0.html
-    urlPrefix: #UMA-Impl:~:text=
-        text: protection API; url: protection%20API,-The%20API
-    urlPrefix: #as-config
-        text: resource registration endpoint; url: resource_registration_endpoint
-        text: permission endpoint; url: permission_endpoint
-        text: introspection endpoint; url: introspection_endpoint
-    urlPrefix: #resource-set-desc
-        text: resource description; url:;
+urlPrefix: https://docs.kantarainitiative.org/uma/wg/rec-oauth-uma-; type: dfn
+    spec: uma-grant; urlPrefix: grant-2.0.html
+        urlPrefix: #:~:text=
+            text: resource owner; url: resource%20owner,-An%20entity
+            text: requesting party; url: requesting%20party,-A%20natural
+            text: client; url: client,-An%20application
+            text: resource server; url: resource%20server,-A%20server
+            text: authorization server; url: authorization%20server,-A%20server
+    spec: uma-fed; urlPrefix: federated-authz-2.0.html
+        urlPrefix: #resource-set-desc
+            text: resource description; url:;
+        urlPrefix: #:~:text=
+            text: protection API; url: protection%20API,-The%20API
+            text: protection API access token; url: protection%20API%20access%20token,-(PAT)
+            text: resource registration endpoint; url: resource_registration_endpoint
+            text: permission endpoint; url: permission_endpoint
+            text: introspection endpoint; url: introspection_endpoint

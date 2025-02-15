@@ -16,6 +16,12 @@
   "oauth20": {
     "aliasOf": "rfc6749"
   },
+  "as-meta": {
+    "aliasOf": "rfc8414"
+  },
+  "wk-uri": {
+    "aliasOf": "rfc8615"
+  },
   "uma-grant": {
     "authors": [
       "Maciej Machulak",
