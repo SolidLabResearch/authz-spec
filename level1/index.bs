@@ -56,8 +56,9 @@ Die When: late
       font-size: 0.9em;
   }
   
-  pre {
+  pre, code {
       font-size: .8em;
+      font-style: normal;
   }
 
   em.rfc2119 {
@@ -207,35 +208,81 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
 -->
 
 
-# Authorization server metadata # {#h-meta}
+# Public metadata # {#h-meta}
 
-  To inform other parties (i.e., [=[RS]s=] and [=clients=]) about its API endpoints and capabilities, the [=[AS]=] [MUST] declare this metadata in a discovery document that is publically readable on the well-known URI (cf. [[!WK-URI]]) formed by appending the string `/.well-known/uma2-configuration` to the root URI of the [=[AS]=]. The document [MUST] be formatted as [JSON] and adhere to [[!AS-Meta]], as specified by [[!UMA-Grant]], [[UMA-Grant#as-config|§ 2]], and [[!UMA-Fed]], [[UMA-Fed#as-config|§ 2]]. The following metadata parameters are of special concern to this specification.
+  To inform other parties about their API endpoints and capabilities, [=clients=], [=[RS]s=] and [=[AS]s=] declare this metadata in discovery documents that are publically readable.
 
-  : `uma_profiles_supported`
-  :: [REQUIRED].  UMA profiles and extensions supported by this [=[AS]=]. Its value [MUST] be a [JSON] array containing the URI `...` as a [JSON] string value, to identify the profile specified in this document. [[!UMA-Grant]]
 
-  ISSUE: decide on profile URI
+## Client metadata ## {#h-meta-client}
 
-  : `issuer`
-  :: [REQUIRED].  The [=[AS]'s=] identifier. [[!AS-Meta]]
+  [=Clients=] [MUST] be identifiable with an HTTPS URL, which [MUST] dereference to a [JSON] document containing the metadata of the client, in accordance with [[!Client-Meta]].
+  
+    <div class="examplenote" id="note-client_ids">
+      Identifier URLs therefore [MAY] contain a port number, [MUST] contain a path component, and [MUST-NOT] contain single- or double-dot path segments, a fragment or query component, or a username or password.
+    </div>
 
-  : `jwks_uri`
-  :: [REQUIRED].  The URL at which the [=[AS]=] serves its JWK Set (cf. [[JWK]]), which contains the public key(s) used to validate signatures from the authorization server. [[!AS-Meta]]
+  In particular, the following client metadata properties are relevant for this specification.
 
-  : `resource_registration_endpoint`
-  :: [REQUIRED].  The URI at which the [=[RS]=] registers resources to put them under protection of the [=[AS]=]. [[!UMA-Fed]]
+    : <dfn noexport>`client_id`</dfn>
+    :: [REQUIRED].  The [=client's=] identifier URL. The value of this property [MUST] be identical to the URL on which the document is served. [[!Client-ID]]
 
-  : `permission_endpoint`
-  :: [REQUIRED].  The URI at which the [=[RS]=] requests permission from the [=[AS]=] on the [=client's=] behalf. [[!UMA-Fed]]
+    : <dfn noexport>`redirect_uris`</dfn>
+    :: [REQUIRED].  An array of redirection URLs to use in redirect-based flows. [[!Client-Meta]]
 
-  : `token_endpoint`
-  :: [REQUIRED].  The URL at which the [=client=] requests an access token from the [=[AS]=]. [[!OAuth20]]
+    : <dfn noexport>`token_endpoint_auth_method`</dfn>
+    :: [OPTIONAL].  For confidential [=clients=], this property is [REQUIRED], and [MUST] be set to `private_key_jwt`. [[!Client-Meta]]
 
-  : `introspection_endpoint`
-  :: [REQUIRED].  The URL at which the [=[RS]=] can retrieve information about a token, including whether this token is currently active. [[!RFC7662]]
+    : <dfn noexport>`jwks`</dfn> / <dfn noexport>`jwks_uri`</dfn>
+    :: [OPTIONAL].  For confidential [=clients=], exactly one of these properties is [REQUIRED]. Either [=jwks=] [MUST] contain the [JSON] JWK Set of the [=client=], or [=jwks_uri=] [MUST] be set to the HTTPS URI of a [JSON] document containing this JWK Set. [[!Client-Meta]]
+  
+  ISSUE: Should we also allow (dynamic) registration? E.g. for clients that cannot host anything?
 
-  : `claims_interaction_endpoint`
-  :: [OPTIONAL].  The URI at which the [=[AS]=] can interact with [=[RP]s=] to gather claims. [[!UMA-Grant]]
+  ISSUE: Look into extending this to DIDs + DID Documents (using a limited list of DID methods, or the universal resolver).
+
+
+## Authorization server metadata ## {#h-meta-as}
+
+  [=[AS]s=] [MUST] publish Authorization Server Metadata in a discovery document that is publically readable on the well-known URI (cf. [[!WK-URI]]) formed by appending the string `/.well-known/uma2-configuration` to the root URI of the [=[AS]=]. The document [MUST] be formatted as [JSON] and adhere to [[!AS-Meta]], as specified by [[!UMA-Grant]], [[UMA-Grant#as-config|§ 2]], and [[!UMA-Fed]], [[UMA-Fed#as-config|§ 2]]. The following metadata parameters are of special concern to this specification.
+
+    : <dfn noexport>`uma_profiles_supported`</dfn>
+    :: [REQUIRED].  UMA profiles and extensions supported by this [=[AS]=]. Its value [MUST] be a [JSON] array containing the URI `...` as a [JSON] string value, to identify the profile specified in this document. [[!UMA-Grant]]
+
+      ISSUE: decide on profile URI
+
+    : <dfn noexport>`client_id_metadata_document_supported`</dfn>
+    :: [REQUIRED].  This property [MUST] be set to `true`, indicating that the [=AS=] supports retrieving client metadata from a [=client_id=] URL. [[!Client-ID]]
+
+    : <dfn noexport>`issuer`</dfn>
+    :: [REQUIRED].  The [=[AS]'s=] identifier. [[!AS-Meta]]
+
+    : <dfn noexport>`jwks_uri`</dfn>
+    :: [REQUIRED].  The URL at which the [=[AS]=] serves its JWK Set (cf. [[JWK]]), which contains the public key(s) used to validate signatures from the authorization server. [[!AS-Meta]]
+
+    : <dfn noexport>`resource_registration_endpoint`</dfn>
+    :: [REQUIRED].  The URI at which the [=[RS]=] registers resources to put them under protection of the [=[AS]=]. [[!UMA-Fed]]
+
+    : <dfn noexport>`permission_endpoint`</dfn>
+    :: [REQUIRED].  The URI at which the [=[RS]=] requests permission from the [=[AS]=] on the [=client's=] behalf. [[!UMA-Fed]]
+
+    : <dfn noexport>`token_endpoint`</dfn>
+    :: [REQUIRED].  The URL at which the [=client=] requests an access token from the [=[AS]=]. [[!OAuth20]]
+
+    : <dfn noexport>`introspection_endpoint`</dfn>
+    :: [REQUIRED].  The URL at which the [=[RS]=] can retrieve information about a token, including whether this token is currently active. [[!RFC7662]]
+
+    : <dfn noexport>`claims_interaction_endpoint`</dfn>
+    :: [OPTIONAL].  The URI at which the [=[AS]=] can interact with [=[RP]s=] to gather claims. [[!UMA-Grant]]
+
+      ISSUE: Should be REQUIRED instead
+
+
+## Resource server metadata ## {#h-meta-rs}
+
+  To be securely identifiable, the [=[RS]=] [MUST] declare a JSON Web Key Set [[JWK]] on the Well-Known URI `/.well-known/jwks.json` [[WK-URI]].
+
+  ISSUE: loosen required url (since ref in discovery anyway)
+
+  ISSUE: use [[Resource-Meta]] (instead of "storage description")
 
 
 # The federated protection API # {#h-fed}

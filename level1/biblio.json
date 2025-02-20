@@ -19,6 +19,21 @@
   "as-meta": {
     "aliasOf": "rfc8414"
   },
+  "client-meta": {
+    "aliasOf": "rfc7591"
+  },
+  "resource-meta": {
+    "authors": [
+      "Michael B. Jones",
+      "Phil Hunt",
+      "Aaron Parecki"
+    ],
+    "date": "10 January 2025",
+    "href": "https://datatracker.ietf.org/doc/draft-ietf-oauth-resource-metadata/",
+    "title": "OAuth 2.0 Protected Resource Metadata",
+    "status": "Active Internet-Draft",
+    "publisher": "IETF"
+  },
   "wk-uri": {
     "aliasOf": "rfc8615"
   },
@@ -57,5 +72,16 @@
         "url": "https://kantara.atlassian.net/wiki/spaces/uma"
       }
     ]
+  },
+  "client-id": {
+    "authors": [
+      "Aaron Parecki",
+      "Emelia Smith"
+    ],
+    "date": "10 January 2025",
+    "href": "https://datatracker.ietf.org/doc/draft-parecki-oauth-client-id-metadata-document/",
+    "title": "OAuth Client ID Metadata Document",
+    "status": "Active Internet-Draft",
+    "publisher": "IETF"
   }
 }
