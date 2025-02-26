@@ -38,7 +38,8 @@ Line Numbers: yes
 External Infotrees: anchors.bsdata yes, link-defaults.infotree yes
 Assume Explicit For: yes
 Prepare For TR: yes
-Complain About: accidental-2119 yes, broken-links yes, missing-example-ids yes, mixed-indents yes
+Complain About: accidental-2119 yes, broken-links no, missing-example-ids yes, mixed-indents yes
+Link Checker Timeout: 10 30
 Die On: fatal
 Die When: late
 
@@ -80,9 +81,9 @@ Die When: late
   .advisement { counter-increment: advisement; }
 
   /* Configure display of additional counters */
-  .note:not(.no-marker)::before { content: "Note " counter(note); }
-  .assertion:not(.no-marker)::before { content: "Assertion " counter(assertion); }
-  .advisement:not(.no-marker)::before { content: "Advisement " counter(advisement); }
+  // .note:not(.no-marker)::before { content: "Note " counter(note); }
+  // .assertion:not(.no-marker)::before { content: "Assertion " counter(assertion); }
+  // .advisement:not(.no-marker)::before { content: "Advisement " counter(advisement); }
 </style>
 
 <!-- use <l></l> if autolinks are not working in some contexts -->
@@ -166,7 +167,7 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
 
   ISSUE: Specify resource owner and relying parties to be natural or legal persons or groups of people.
 
-  : <dfn noexport local-lt="R0">Resource owner</dfn> (<abbr title="Resource owner">RO</abbr>)
+  : <dfn noexport local-lt="RO">Resource owner</dfn> (<abbr title="Resource owner">RO</abbr>)
 
   :: An entity capable of granting access to a protected resource, as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=resource owner=]</l>).
 
@@ -182,9 +183,9 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
   
   :: An application making protected resource requests on behalf of the **requesting party**, as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=client=]</l>).
 
-  : <dfn noexport local-lt="AS|issuer">Authorization server</dfn> (<abbr title="Authorization Server">AS</abbr>)
+  : <dfn noexport local-lt="AS">Authorization server</dfn> (<abbr title="Authorization Server">AS</abbr>)
 
-  :: The server issuing access tokens to the client, as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=authorization server=]</l>). Also known as 'issuer'.
+  :: The server issuing access tokens to the client, as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=authorization server=]</l>).
 
   : <dfn noexport local-lt="PAPI">Protection API</dfn>
 
@@ -232,8 +233,8 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
     : <dfn noexport>`token_endpoint_auth_method`</dfn>
     :: [OPTIONAL].  For confidential [=clients=], this property is [REQUIRED], and [MUST] be set to `private_key_jwt`. [[!Client-Meta]]
 
-    : <dfn noexport>`jwks`</dfn> / <dfn noexport>`jwks_uri`</dfn>
-    :: [OPTIONAL].  For confidential [=clients=], exactly one of these properties is [REQUIRED]. Either [=jwks=] [MUST] contain the [JSON] JWK Set of the [=client=], or [=jwks_uri=] [MUST] be set to the HTTPS URI of a [JSON] document containing this JWK Set. [[!Client-Meta]]
+    : <dfn noexport lt="client's JWK Set">`jwks` / `jwks_uri`</dfn>
+    :: [OPTIONAL].  For confidential [=clients=], exactly one of these properties is [REQUIRED]. Either `jwks` [MUST] contain the [JSON] JWK Set of the [=client=], or `jwks_uri` [MUST] be set to the HTTPS URI of a [JSON] document containing this JWK Set. [[!Client-Meta]]
   
   ISSUE: Should we also allow (dynamic) registration? E.g. for clients that cannot host anything?
 
@@ -255,25 +256,27 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
     : <dfn noexport>`issuer`</dfn>
     :: [REQUIRED].  The [=[AS]'s=] identifier. [[!AS-Meta]]
 
+    : <dfn noexport local-lt="resource registration endpoint">`resource_registration_endpoint`</dfn>
+    :: [REQUIRED].  The URI at which the [=[RS]=] registers resources to put them under protection of the [=[AS]=], as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=resource registration endpoint=]</l>).
+
+    : <dfn noexport local-lt="permission endpoint">`permission_endpoint`</dfn>
+    :: [REQUIRED].  The URI at which the [=[RS]=] requests permission from the [=[AS]=] on the [=client's=] behalf, as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=permission endpoint=]</l>).
+
+    : <dfn noexport local-lt="token endpoint">`token_endpoint`</dfn>
+    :: [REQUIRED].  The URL at which the [=client=] requests an access token from the [=[AS]=], as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=token endpoint=]</l>).
+
+    : <dfn noexport local-lt="introspection endpoint">`introspection_endpoint`</dfn>
+    :: [REQUIRED].  The URL at which the [=[RS]=] can retrieve information about a token, including whether this token is currently active, as defined by [[!RFC7662]] and refined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=introspection endpoint=]</l>).
+
+    : <dfn noexport local-lt="claims-interaction endpoint">`claims_interaction_endpoint`</dfn>
+    :: [OPTIONAL].  The URI at which the [=[AS]=] can interact with [=[RP]s=] to gather claims, as defined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=claims interaction endpoint=]</l>).
+
+      ISSUE: Should be RECOMMENDED, or even REQUIRED instead
+
     : <dfn noexport>`jwks_uri`</dfn>
-    :: [REQUIRED].  The URL at which the [=[AS]=] serves its JWK Set (cf. [[JWK]]), which contains the public key(s) used to validate signatures from the authorization server. [[!AS-Meta]]
+    :: [OPTIONAL].  The URL at which the [=[AS]=] serves its JWK Set (cf. [[JWK]]), which contains the public key(s) used to validate signatures from the authorization server. [[!AS-Meta]]
 
-    : <dfn noexport>`resource_registration_endpoint`</dfn>
-    :: [REQUIRED].  The URI at which the [=[RS]=] registers resources to put them under protection of the [=[AS]=]. [[!UMA-Fed]]
-
-    : <dfn noexport>`permission_endpoint`</dfn>
-    :: [REQUIRED].  The URI at which the [=[RS]=] requests permission from the [=[AS]=] on the [=client's=] behalf. [[!UMA-Fed]]
-
-    : <dfn noexport>`token_endpoint`</dfn>
-    :: [REQUIRED].  The URL at which the [=client=] requests an access token from the [=[AS]=]. [[!OAuth20]]
-
-    : <dfn noexport>`introspection_endpoint`</dfn>
-    :: [REQUIRED].  The URL at which the [=[RS]=] can retrieve information about a token, including whether this token is currently active. [[!RFC7662]]
-
-    : <dfn noexport>`claims_interaction_endpoint`</dfn>
-    :: [OPTIONAL].  The URI at which the [=[AS]=] can interact with [=[RP]s=] to gather claims. [[!UMA-Grant]]
-
-      ISSUE: Should be REQUIRED instead
+      ISSUE: Should be RECOMMENDED, or even REQUIRED instead
 
 
 ## Resource server metadata ## {#h-meta-rs}
@@ -282,49 +285,45 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
 
   ISSUE: loosen required url (since ref in discovery anyway)
 
-  ISSUE: use [[Resource-Meta]] (instead of "storage description")
+  ISSUE: use [[Resource-Meta]] (instead of "storage description"), and possibly also [[Client-Meta]]
 
 
 # The federated protection API # {#h-fed}
 
-  The [=[AS]=] [MUST] provide a [=[PAPI]=], as defined by [[!UMA-Fed]], to govern its interactions with one or more [=[RS]s=]. This API consists of three endpoints, listed in the [=[AS]'s=] metadata: [=resource registration endpoint=], [=resource registration endpoint=], and [=introspection endpoint=].
+  The [=[AS]=] [MUST] provide a [=[PAPI]=], as defined by [[!UMA-Fed]], to govern its interactions with one or more [=[RS]s=]. This API consists of three endpoints, listed in the [=[AS]'s=] metadata: the [=resource registration endpoint=], the [=permission endpoint=], and the [=introspection endpoint=].
 
 
 ## Security ## {#h-fed-sec}
 
 
-TLS 1.3 with ephemeral Diffie–Hellman cipher key exhange algorithm (TLS_DHE and TLS_ECDHE) to support forward secrecy
-
-Subsitute with 
-- mutual TLS
-- password-based challenge–response authentication (e.g., SCRAM over TLS/SASL)
-- (augmented) password-only authentication and key exchange (e.g., CPake or OPAQUE)
-
-
 ### Channel security ### {#h-fed-sec-chan}
 
-  As specified by [[!UMA-Fed]], [[UMA-Fed#api-sec|§ 1.3]], all interactions via the [=[PAPI]=] [MUST] happen over an [[!RFC9112|HTTP/1.1]] channel (or higher) protected by [[!RFC8446|TLS 1.3]] (or higher), and in accordance with the
-  recommendations formulated in [[!RFC9325]].
+  As specified by [[!UMA-Fed]], [[UMA-Fed#api-sec|§ 1.3]], all interactions via the [=[PAPI]=] [MUST] happen over an [[!RFC9112|HTTP/1.1]] channel (or higher) protected by [[!RFC8446|TLS 1.3]] (or higher), and in accordance with the recommendations formulated in [[!RFC9325]].
 
-  ISSUE: Require HTTP/2, which includes the requirements above, and patches some vulnerabilities in (m)TLS negotiation.
+    ISSUE: Require key exhange algorithms based on ephemeral Diffie–Hellman ciphers (TLS_DHE and TLS_ECDHE) to ensure forward secrecy.
 
-  ISSUE: In the long-term, abstract from HTTP towards any SASL-aware application layer (cf. draft-vanrein-httpauth-sasl-06) . Conversely, enable HTTP-delivered OAuth tokens to be presented to SASL resource servers with rfc7628.
+    ISSUE: Require HTTP/2, which includes the requirements above, and patches some vulnerabilities in (m)TLS negotiation.
 
-  ISSUE: In the long-term, add support for DTLS & QUIC.
+    ISSUE: In the long-term, abstract from HTTP towards any SASL-aware application layer (cf. draft-vanrein-httpauth-sasl-06) . Conversely, enable HTTP-delivered OAuth tokens to be presented to SASL resource servers with rfc7628.
+
+    ISSUE: In the long-term, add support for DTLS & QUIC.
 
 
 ### Message security ### {#h-fed-sec-msg}
 
-  To be securely identifiable, the [=[RS]=] [MUST] declare a JSON Web Key Set [[JWK]] on the Well-Known URI `/.well-known/jwks.json` [[WK-URI]].
+  Messages from the [=[RS]=] to the [=[AS]=] [MUST] be protected with a [=[PAT]=], as defined in [[!UMA-Fed]], [[UMA-Fed#api-sec|§ 1.3]].
 
-  ISSUE: loosen required url (since ref in discovery anyway)
+    ADVISEMENT: This is a deviation from the Level 0 specification, to realign with classic UMA.
 
-  In contrast to [[!UMA-Fed]], [[UMA-Fed#api-sec|§ 1.3]], messages from the [=[RS]=] to the [=[AS]=] [MUST-NOT] be protected with
-  a protection API access token (PAT), but [MUST] be protected with a HTTP Message Signature [[RFC9421]] using one of the keys present in the aforementioned JWK Set.
+    <div class="issue">
+      Subsitute with 
+        - HTTP Message Signatures + Well-Known JWK Set (cf. L0, but loosen fixed URL, since pointer in config)
+        - mutual TLS (with OAuth mTLS grant ?)
+        - password-based challenge–response authentication (e.g., SCRAM over TLS/SASL)
+        - (augmented) password-only authentication and key exchange (e.g., CPake or OPAQUE)
+    </div>
 
-  ISSUE: discuss use of token (classic UMA)
-
-  ISSUE: discuss other key-based approaches (e.g. mTLS)
+  Messages from the [=[AS]=] to the [=[RS]=] [SHOULD] be protected with a HTTP Message Signature [[RFC9421]] using one of the keys present in the [=JWK Set=] refered to in the [=[AS]'s=] metadata.
 
 
 ### Linking an RS to an AS ### {#h-fed-sec-link}
