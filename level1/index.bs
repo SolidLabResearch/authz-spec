@@ -54,20 +54,24 @@ Die When: late
   .example,
   .assertion,
   .advisement {
-      font-size: 0.9em;
+    font-size: 0.9em;
   }
   
   pre, code {
-      font-size: .8em;
-      font-style: normal;
+    font-size: .8em;
+    font-style: normal;
   }
 
   em.rfc2119 {
-      text-transform: lowercase;
-      font-variant: small-caps;
-      font-style: normal;
-      font-size: 18px;
-      color: #900;
+    text-transform: lowercase;
+    font-variant: small-caps;
+    font-style: normal;
+    font-size: 18px;
+    color: #900;
+  }
+
+  dt {
+    margin-top: 0.8em;
   }
 
   [data-link-type=biblio] { white-space: normal !important; /* allows breaks in inline references */ }
@@ -208,6 +212,18 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
   </div>
 -->
 
+<!-- TODO: add explainers
+  <details class="explainer" id="...">
+
+    <summary>Shopping list</summary>
+
+    * Vegetables
+    * Fruits
+    * Fish
+
+  </details>
+-->
+
 
 # Public metadata # {#h-meta}
 
@@ -236,9 +252,9 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
     : <dfn noexport lt="client's JWK Set">`jwks` / `jwks_uri`</dfn>
     :: [OPTIONAL].  For confidential [=clients=], exactly one of these properties is [REQUIRED]. Either `jwks` [MUST] contain the [JSON] JWK Set of the [=client=], or `jwks_uri` [MUST] be set to the HTTPS URI of a [JSON] document containing this JWK Set. [[!Client-Meta]]
   
-  ISSUE: Should we also allow (dynamic) registration? E.g. for clients that cannot host anything?
+    ISSUE: Should we also allow (dynamic) registration? E.g. for clients that cannot host anything?
 
-  ISSUE: Look into extending this to DIDs + DID Documents (using a limited list of DID methods, or the universal resolver).
+    ISSUE: Look into extending this to DIDs + DID Documents (using a limited list of DID methods, or the universal resolver).
 
 
 ## Authorization server metadata ## {#h-meta-as}
@@ -328,7 +344,13 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
 
 ### Linking an RS to an AS ### {#h-fed-sec-link}
 
-  ISSUE: decide on protocol: how to get do mutual registration between AS and RS ?
+  The [=[RO]=] links a [=[RS]=] to their [=[AS]=] by providing the former with the root [=URI=] of the latter, i.e., the [=[AS]'s=] [=issuer=] value (cf. [[#h-meta-as]]). How this information is provided, is out of the scope of this specification. 
+
+    ISSUE: Presuming most ASs will come with some kind of native app, a QR-based flow would be handy. We could specify how, after scanning an RS's QR code, the AS (app) would contact that RS on a well-known URI to initiate contact, either through a redirect URI or by specifying a code to be checked/entered.
+
+  As soon as [=[RS]=] and [=[AS]=] are known to each other, the former can request a [=[PAT]=] from the latter. This [MUST] happen via an [[OAuth20]] flow that both servers support. In most cases, this [SHOULD] include interaction of the [=[RO]=], e.g., via the authorization code flow using redirects of the [=[RO]'s=] user-agent, but other [[OAuth20]] flows [MAY] be employed.
+
+  To prevent the [=[RO]=] from having to confirm the authorization every time a token expires, the [=[AS]=] [SHOULD] inlcude a refresh token in each successful token response.
 
 
 ## Resource management ## {#h-fed-res}
@@ -341,13 +363,6 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
   ISSUE: go into resource and scope descriptions
 
   ISSUE: make user_access_policy_uri recommended ?
-
-
-#### Initial resources #### {#h-fed-res-reg-init}
-
-  ...
-
-  ISSUE: discuss (bulk) registration of initial resources
 
 
 ## Requesting a Ticket ## {#h-fed-res-ticket}
