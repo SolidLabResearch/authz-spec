@@ -15,6 +15,10 @@ Custom Warning Text
 
 <pre class="metadata">
 
+Warning: Custom
+Custom Warning Title: Next level available: A4DS L1
+Custom Warning Text: This documents specifies an initial explorative level of the Authorization for Data Spaces (A4DS L0). A draft of the next level (A4DS L1) is available at <a href="https://spec.knows.idlab.ugent.be/A4DS/L1/latest/">https://spec.knows.idlab.ugent.be/A4DS/L1/latest/</a>.
+
 Title: Authorization for Data Spaces (A4DS)
 Shortname: A4DS
 
@@ -26,6 +30,9 @@ Editor: Wouter Termont, imec
 
 URL: https://SolidLabResearch.github.io/authz-spec
 Repository: https://github.com/SolidLabResearch/authz-spec
+
+TR: https://spec.knows.idlab.ugent.be/A4DS/L0/latest/
+Metadata Include: This version off
 
 Dark Mode: no
 Max ToC Depth: 2
@@ -40,6 +47,7 @@ Prepare For TR: yes
 Complain About: accidental-2119 yes, broken-links yes, missing-example-ids yes, mixed-indents yes
 Die On: fatal
 Die When: late
+Link Checker Timeout: 10 30
 
 </pre>
 
@@ -186,7 +194,7 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
 
 ### Message security ### {#h-fed-sec-msg}
 
-  To be securely identifiable, the [RS] [MUST] declare a JSON Web Key Set [[RFC7517]] on the Well-Known URI `/.well-known/jwks.json` [[RFC8615]].
+  To be securely identifiable, the [RS] [MUST] declare a JSON Web Key Set [[JWK]] on the Well-Known URI `/.well-known/jwks.json` [[RFC8615]].
 
   ISSUE: loosen required url (since ref in discovery anyway)
 
@@ -219,7 +227,7 @@ Comments regarding this document are welcome, via the [GitHub issue tracker](htt
 
 ## Requesting a Ticket ## {#h-fed-res-ticket}
 
-  When a client application makes an unauthorized attempt to access resources on an [RS] [DASH] with an invalid access token, or none at all [DASH] the [RS] can request a [=permission ticket=] from the relevant [AS], and provide the ticket to the client as an indication of the scope of the attempted access, while pointing the client to the [AS], as described in [[!UMA-Fed]], [[UMA-Fed#permission-endpoint|§ 4]].
+  When a client application makes an unauthorized attempt to access resources on an [RS] [DASH] with an invalid access token, or none at all [DASH] the [RS] can request a permission ticket from the relevant [AS], and provide the ticket to the client as an indication of the scope of the attempted access, while pointing the client to the [AS], as described in [[!UMA-Fed]], [[UMA-Fed#permission-endpoint|§ 4]].
 
   As specified in [[!UMA-Fed]], [[UMA-Fed#rfc.section.4.1|§ 4.1]], the ticket is requested by sending a `POST` request to
   the `permission_endpoint`, with an `application/json` body consisting of a permission object or an array of one  or more permission objects. Each permission object contains the `resource_scopes` requested for a specific `resource_id`.  According to [[!UMA-Fed]], [[UMA-Fed#rfc.section.4.2|§ 4.2]], a successful permission request results in a `201` response containing the `ticket` parameter in an `application/json` body.
