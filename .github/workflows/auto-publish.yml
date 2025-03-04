@@ -53,19 +53,19 @@ jobs:
         if: ${{ steps.filter.outputs.level0 == 'true' || github.event_name == 'workflow_dispatch' }}
         run: |
           cd level0
-          bikeshed spec index.bs "${{ env.build_dir }}"/level0/index.html
+          bikeshed spec index.bs "../${{ env.build_dir }}"/level0/index.html
 
       - name: Build Level 1
         if: ${{ steps.filter.outputs.level1 == 'true' || github.event_name == 'workflow_dispatch' }}
         run: |
           cd level0
-          bikeshed spec index.bs "${{ env.build_dir }}"/level1/index.html
+          bikeshed spec index.bs "../${{ env.build_dir }}"/level1/index.html
 
       # - name: Build Level 2
       #   if: ${{ steps.filter.outputs.level2 == 'true' || github.event_name == 'workflow_dispatch' }}
       #   run:  |
       #     cd level0
-      #     bikeshed spec index.bs "${{ env.build_dir }}"/level2/index.html
+      #     bikeshed spec index.bs "../${{ env.build_dir }}"/level2/index.html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
