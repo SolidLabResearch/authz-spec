@@ -1,4 +1,8 @@
 
+[![Build](https://github.com/SolidLabResearch/authz-spec/actions/workflows/auto-publish.yml/badge.svg?branch=main)](https://github.com/SolidLabResearch/authz-spec/actions/workflows/auto-publish.yml)
+
+[![Publication](https://github.com/SolidLabResearch/authz-spec/actions/workflows/pages/pages-build-deployment/badge.svg?branch=gh-pages)](https://github.com/SolidLabResearch/authz-spec/actions/workflows/pages/pages-build-deployment)
+
 # Authorization for Data Spaces (A4DS)
 
 This repository contains the documents for a technical specification published by the [Knowledge on Web Scale](https://knows.idlab.ugent.be/) (KNoWS) group of the [Internet Technology and Data Science Lab](https://idlab.ugent.be/) (IDLab), an [imec](https://www.imec-int.com/)-affiliated research group at [Ghent University](https://ugent.be/) (UGent).

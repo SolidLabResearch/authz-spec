@@ -1,7 +1,5 @@
 
 <!-- 
-Previous Version
-Logo
 Metadata Include
 Metadata Order
 At Risk
@@ -23,7 +21,11 @@ Work Status: exploring
 Editor: Wouter Termont, imec
 
 ED: https://spec.knows.idlab.ugent.be/A4DS/L1/latest
+Previous Version: https://spec.knows.idlab.ugent.be/A4DS/L0/latest
 Repository: https://github.com/SolidLabResearch/authz-spec
+
+Favicon: favicon.ico
+Logo: logo.png
 
 Dark Mode: no
 Max ToC Depth: 2
@@ -36,17 +38,32 @@ Line Numbers: yes
 External Infotrees: anchors.bsdata yes, link-defaults.infotree yes
 Assume Explicit For: yes
 Prepare For TR: yes
+
 Complain About: accidental-2119 yes, broken-links no, missing-example-ids yes, mixed-indents yes
 Link Checker Timeout: 10 30
+
 Die On: fatal
 Die When: late
 
 </pre>
 
+<link rel="icon" href="favicon.ico">
+<div boilerplate="logo" class="logo">
+  <a href="https://knows.idlab.ugent.be/">
+      <img alt="KNoWS" src="logo.png" width="126" height="75">
+  </a>
+</div>
+
+<link rel="stylesheet" href="font.css" />
 <link rel="stylesheet" href="https://fred-wang.github.io/MathFonts/LatinModern/mathfonts.css" />
 <script src="https://fred-wang.github.io/mathml.css/mspace.js"></script>
 
 <style>
+
+  body {
+    font-family: "Titillium Web", "Helvetica Neue", Arial, sans-serif;
+  }
+
   .note,
   .issue,
   .example,
@@ -86,6 +103,7 @@ Die When: late
   // .note:not(.no-marker)::before { content: "Note " counter(note); }
   // .assertion:not(.no-marker)::before { content: "Assertion " counter(assertion); }
   // .advisement:not(.no-marker)::before { content: "Advisement " counter(advisement); }
+
 </style>
 
 <!-- use <l></l> if autolinks are not working in some contexts -->
@@ -128,9 +146,9 @@ Abstract:
   Authorization for Data Spaces (A4DS) is a profile for the User-Managed Access (UMA) specifications ...
 </pre>
 
-<p boilerplate="copyright">
+<div boilerplate="copyright">
   <!-- Copyright © 2024 imec. This document is made available under the MIT License. -->
-</p>
+</div>
 
 <h2 id="h-status" class="no-num">Status of this document</h2>
 
