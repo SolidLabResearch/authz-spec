@@ -55,56 +55,10 @@ Die When: late
 </div>
 
 <link rel="stylesheet" href="font.css" />
+<link rel="stylesheet" href="style.css" />
+
 <link rel="stylesheet" href="https://fred-wang.github.io/MathFonts/LatinModern/mathfonts.css" />
 <script src="https://fred-wang.github.io/mathml.css/mspace.js"></script>
-
-<style>
-
-  body {
-    font-family: "Titillium Web", "Helvetica Neue", Arial, sans-serif;
-  }
-
-  .note,
-  .issue,
-  .example,
-  .assertion,
-  .advisement {
-    font-size: 0.9em;
-  }
-  
-  pre, code {
-    font-size: .8em;
-    font-style: normal;
-  }
-
-  em.rfc2119 {
-    text-transform: lowercase;
-    font-variant: small-caps;
-    font-style: normal;
-    font-size: 18px;
-    color: #900;
-  }
-
-  dt {
-    margin-top: 0.8em;
-  }
-
-  [data-link-type=biblio] { white-space: normal !important; /* allows breaks in inline references */ }
-
-  /* Reset base counters and additional ones */
-  body { counter-reset: example note issue assertion advisement figure !important; }
-
-  /* Configure increments for additional counters */
-  .note { counter-increment: note; }
-  .assertion { counter-increment: assertion; }
-  .advisement { counter-increment: advisement; }
-
-  /* Configure display of additional counters */
-  // .note:not(.no-marker)::before { content: "Note " counter(note); }
-  // .assertion:not(.no-marker)::before { content: "Assertion " counter(assertion); }
-  // .advisement:not(.no-marker)::before { content: "Advisement " counter(advisement); }
-
-</style>
 
 <!-- use <l></l> if autolinks are not working in some contexts -->
 <pre class="metadata">
