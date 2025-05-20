@@ -9,6 +9,11 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch: # for manual runs
+    inputs:
+      level:
+        description: 'Which spec level?'
+        default: '1'
+        required: true
 
 env:
   build_dir: _gh_pages_build
@@ -50,19 +55,19 @@ jobs:
         id: setup
           
       - name: Build Level 0
-        if: ${{ steps.filter.outputs.level0 == 'true' || github.event_name == 'workflow_dispatch' }}
+        if: ${{ steps.filter.outputs.level0 == 'true' || github.event.inputs.level == '0' }}
         run: |
           cd level0
           bikeshed spec index.bs "../${{ env.build_dir }}"/level0/index.html
 
       - name: Build Level 1
-        if: ${{ steps.filter.outputs.level1 == 'true' || github.event_name == 'workflow_dispatch' }}
+        if: ${{ steps.filter.outputs.level1 == 'true' || github.event.inputs.level == '1' }}
         run: |
           cd level1
           bikeshed spec index.bs "../${{ env.build_dir }}"/level1/index.html
 
       # - name: Build Level 2
-      #   if: ${{ steps.filter.outputs.level2 == 'true' || github.event_name == 'workflow_dispatch' }}
+      #   if: ${{ steps.filter.outputs.level2 == 'true' || github.event.inputs.level == '2' }}
       #   run:  |
       #     cd level2
       #     bikeshed spec index.bs "../${{ env.build_dir }}"/level2/index.html
