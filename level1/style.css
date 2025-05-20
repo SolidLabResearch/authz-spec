@@ -8,7 +8,7 @@
   --color-main-dark: #0b7e4d;
   --color-bg: white;
 
-  --heading-text: var(--color-main) !important;
+  --heading-text: var(--color-main-dark) !important;
 
   --a-normal-text: var(--color-main) !important;
   --a-normal-underline: var(--color-main-t50) !important;
@@ -17,7 +17,7 @@
 
   --a-hover-bg: var(--color-main-t10) !important;
   
-  --toclink-text: var(--color-main) !important;
+  --toclink-text: var(--color-main-dark) !important;
   --toclink-underline: var(--color-main-t50) !important;
   --toclink-visited-text: var(--color-main-dark) !important;
   --toclink-visited-underline: var(--color-main-t50) !important;
@@ -25,6 +25,8 @@
   --note-bg: var(--color-main-t10) !important;
   --note-border: var(--color-main) !important;
 }
+
+h1 { color: var(--color-main) !important; }
 
 body {
   background-color: var(--color-bg);

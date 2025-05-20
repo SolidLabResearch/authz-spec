@@ -34,10 +34,11 @@ jobs:
         uses: dorny/paths-filter@v3
         with:
           base: ${{ github.ref }}
+          ref: ${{ github.ref }}
           filters: |
-            level0: level0/**
-            level1: level1/** 
-          # level2: level2/**
+            level0: 'level0/**'
+            level1: 'level1/**'
+          # level2: 'level2/**'
         id: filter
 
       - name: Set Python version
