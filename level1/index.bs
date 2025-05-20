@@ -6,6 +6,8 @@ At Risk
 Warning
 Custom Warning Title
 Custom Warning Text
+Favicon: assets/favicon.ico
+Logo: assets/logo.png
 -->
 
 <pre class="metadata">
@@ -23,9 +25,6 @@ Editor: Wouter Termont, imec
 ED: https://spec.knows.idlab.ugent.be/A4DS/L1/latest
 Previous Version: https://spec.knows.idlab.ugent.be/A4DS/L0/latest
 Repository: https://github.com/SolidLabResearch/authz-spec
-
-Favicon: favicon.ico
-Logo: logo.png
 
 Dark Mode: no
 Max ToC Depth: 2
@@ -47,15 +46,15 @@ Die When: late
 
 </pre>
 
-<link rel="icon" href="favicon.ico">
+<link rel="icon" href="assets/favicon.ico">
 <div boilerplate="logo" class="logo">
   <a href="https://knows.idlab.ugent.be/">
-      <img alt="KNoWS" src="logo.png" width="126" height="75">
+      <img alt="KNoWS" src="assets/logo.png" width="126" height="75">
   </a>
 </div>
 
-<link rel="stylesheet" href="font.css" />
-<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="assets/font.css" />
+<link rel="stylesheet" href="assets/style.css" />
 
 <link rel="stylesheet" href="https://fred-wang.github.io/MathFonts/LatinModern/mathfonts.css" />
 <script src="https://fred-wang.github.io/mathml.css/mspace.js"></script>

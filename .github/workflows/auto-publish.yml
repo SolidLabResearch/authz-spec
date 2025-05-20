@@ -66,12 +66,14 @@ jobs:
         run: |
           cd level1
           bikeshed spec index.bs "../${{ env.build_dir }}"/level1/index.html
+          cp -R assets "../${{ env.build_dir }}"/level1/assets
 
       # - name: Build Level 2
       #   if: ${{ steps.filter.outputs.level2 == 'true' || github.event.inputs.level == '2' }}
       #   run:  |
       #     cd level2
       #     bikeshed spec index.bs "../${{ env.build_dir }}"/level2/index.html
+      #     cp -R assets "../${{ env.build_dir }}"/level2
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
