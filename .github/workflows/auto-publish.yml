@@ -58,13 +58,13 @@ jobs:
       - name: Build Level 1
         if: ${{ steps.filter.outputs.level1 == 'true' || github.event_name == 'workflow_dispatch' }}
         run: |
-          cd level0
+          cd level1
           bikeshed spec index.bs "../${{ env.build_dir }}"/level1/index.html
 
       # - name: Build Level 2
       #   if: ${{ steps.filter.outputs.level2 == 'true' || github.event_name == 'workflow_dispatch' }}
       #   run:  |
-      #     cd level0
+      #     cd level2
       #     bikeshed spec index.bs "../${{ env.build_dir }}"/level2/index.html
 
       - name: Deploy to GitHub Pages
