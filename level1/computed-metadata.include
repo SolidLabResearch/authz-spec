@@ -1,0 +1,16 @@
+{
+ "Text Macro": [
+  "NO-NORM *This section is non-normative.*",
+  "MUST <a class='rfc2119' href='#h-conform'>*must*</a>",
+  "SHALL <a class='rfc2119' href='#h-conform'>*shall*</a>",
+  "SHOULD <a class='rfc2119' href='#h-conform'>*should*</a>",
+  "MAY <a class='rfc2119' href='#h-conform'>*may*</a>",
+  "REQUIRED <a class='rfc2119' href='#h-conform'>*required*</a>",
+  "RECOMMENDED <a class='rfc2119' href='#h-conform'>*recommended*</a>",
+  "OPTIONAL <a class='rfc2119' href='#h-conform'>*optional*</a>",
+  "MUST-NOT <a class='rfc2119' href='#h-conform'>*must not*</a>",
+  "SHALL-NOT <a class='rfc2119' href='#h-conform'>*shall not*</a>",
+  "SHOULD-NOT <a class='rfc2119' href='#h-conform'>*should not*</a>",
+  "NOT-RECOMMENDED <a class='rfc2119' href='#h-conform'>*not recommended*</a>"
+ ]
+}

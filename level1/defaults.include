@@ -1,0 +1,43 @@
+{
+ "Local Boilerplate": [
+  "defaults yes", 
+  "computed-metadata yes", 
+  "logo yes",
+  "status yes",
+  "header yes",
+  "footer yes",
+  "copyright yes",
+  "conformance yes"
+ ],
+ "Metadata Order": "*, !*",
+ "Dark Mode": "no",
+ "Indent": "2",
+ "Max ToC Depth": "3",
+ "Use Dfn Panels": "yes",
+ "Remove Multiple Links": "yes",
+ "Image Auto Size": "yes",
+ "Markup Shorthands": [
+  "markdown yes",
+  "macros-in-autolinks yes",
+  "markup no",
+  "css no",
+  "idl no"
+ ],
+ "Default Highlight": "javascript",
+ "Line Numbers": "no",
+ "External Infotrees": [
+  "anchors.bsdata yes",
+  "link-defaults.infotree yes"
+ ],
+ "Assume Explicit For": "yes",
+ "Prepare For TR": "yes",
+ "Complain About": [
+  "accidental-2119 yes",
+  "broken-links no",
+  "missing-example-ids yes",
+  "mixed-indents yes"
+ ],
+ "Link Checker Timeout": "10 30",
+ "Die On": "fatal",
+ "Die When": "late"
+}
