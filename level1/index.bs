@@ -85,6 +85,10 @@ path: parts/claims.bs
 path: parts/evaluation.bs
 </pre>
 
+<pre class="include">
+path: parts/errors.bs
+</pre>
+
 <pre class="metadata">
 Text Macro: DASH &ndash;
 

@@ -1,0 +1,90 @@
+<section>
+
+# Error messages # {#h-errors}
+
+If any interaction with the [=[AS]=] fails, the latter [MUST] respond with an error message, to inform the other party of the error. An error message is a HTTP response message with a status code in the ranges `4xx` or `5xx`. An error message [MAY] contain an error description, which is a [JSON] object with the following parameters, as defined by [[OAuth20]], [[UMA-Grant]], and [[UMA-Fed]].
+
+  : <dfn noexport>`error`</dfn>
+  :: [REQUIRED].  A string containing an error code.
+
+  : <dfn noexport>`error_description`</dfn>
+  :: [OPTIONAL].  A string containing human-readable information about the error.
+
+  : <dfn noexport>`error_uri`</dfn>
+  :: [OPTIONAL].  A string containing the [URI] reference of a web page with human-readable information about the error.
+
+  : <dfn noexport>`state`</dfn>
+  :: [REQUIRED] if a `state` parameter was present in the request that triggered the error. The value [MUST] be the unaltered value of the `state` parameter in that request.
+
+The possible error codes defined by [[UMA-Grant]] and [[UMA-Fed]] are the following.
+
+  : <dfn noexport>`invalid_resource_id`</dfn>
+  :: Status code `400`. At least one of the provided resource identifiers was not found at the authorization server.
+  
+  : <dfn noexport>`need_info`</dfn>
+  :: Status code `403`. The authorization server needs additional information in order for a request to succeed, for example, a provided claim token was invalid or expired, or had an incorrect format, or additional claims are needed to complete the authorization assessment. 
+  
+    Error descriptions with this error code [MUST] additionally include the following parameters:
+    
+    : <dfn noexport lt="need info ticket">`ticket`</dfn>
+    :: [REQUIRED]. A permission ticket that allows the client to make a further request to the authorization server's token endpoint as part of this same authorization process, potentially immediately. The value MUST NOT be the same as the one the client used to make its request.
+    
+    : <dfn noexport lt="need info claims">`required_claims`</dfn>
+    :: [REQUIRED] if `redirect_user` not present, [OPTIONAL] otherwise. An array of objects that describe the required claims.
+    
+    : <dfn noexport lt="need info redirect">`redirect_user`</dfn>
+    :: [REQUIRED] if `required_claims` not present, [OPTIONAL] otherwise. The claims interaction endpoint URI to which to redirect the end-user requesting party at the authorization server to continue the process of interactive claims gathering. If the requesting party is not an end-user, then no client action is possible on receiving the hint.
+  
+  : <dfn noexport>`request_denied`</dfn>
+  :: Status code `403`. The client is not authorized to have these permissions.
+  
+  : <dfn noexport>`request_submitted`</dfn>
+  :: Status code `403`. The authorization server requires intervention by the resource owner to determine whether the client is authorized to have these permissions. 
+    
+    Error descriptions with this error code [MUST] additionally include the following parameters:
+
+    : <dfn noexport lt="request submitted ticket">`ticket`</dfn>
+    :: [REQUIRED]. A permission ticket that allows the client to make one or more later polling requests to the token endpoint as part of this same authorization process, when the resource owner might have completed some approval (or denial) action. The value MUST NOT be the same as the one the client used to make its request.
+
+    : <dfn noexport lt="request submitted interval">`interval`</dfn>
+    :: [OPTIONAL]. The minimum amount of time in seconds that the client SHOULD wait between polling requests to the token endpoint. See Section 5.5 for security considerations in scenarios involving polling and consequences for permission ticket lifetimes.
+
+  : <dfn noexport>`not_found`</dfn>
+  :: Status code `404`. The [=[AS]=] cannot find the referenced [=resource=].
+
+  : <dfn noexport>`unsupported_method_type`</dfn>
+  :: Status code `405`. The request used an unsupported HTTP method.
+
+Additionally, if no more specific error code can describe the error better, the [=[AS]=] [MAY] respond with the following error codes defined by [[OAuth20]]:
+  
+  : <dfn noexport>`unsupported_grant_type`</dfn>
+  :: Status code `400`. The provided grant type is not supported by the [=[AS]=].
+
+  : <dfn noexport>`unsupported_response_type`</dfn>
+  :: Status code `400`. The requested response type is not supported by the [=[AS]=].
+
+  : <dfn noexport>`invalid_request`</dfn>
+  :: Status code `400`. The request is invalid, e.g., it has missing or invalid parameters.
+
+  : <dfn noexport>`invalid_scope`</dfn>
+  :: Status code `400`. The requested scope is invalid or not known to the [=[AS]=]. At least one of the scopes included in the request does not match an available scope for any of the resources associated with requested permissions for the permission ticket provided by the client. The authorization server MAY also return this error when at least one of the scopes included in the request does not match a scope for which the client is pre-registered with the authorization server. 
+
+  : <dfn noexport>`invalid_grant`</dfn>
+  :: Status code `400`. The provided grant is expired, revoked, or otherwise invalid.
+
+  : <dfn noexport>`invalid_client`</dfn>
+  :: Status code `400`, or `401` with `WWW-Authenticate` header. Client authentication failed, e.g., the client is unknown, did not provide authentication, or attempted an unsupported authentication method).
+
+  : <dfn noexport>`unauthorized_client`</dfn>
+  :: Status code `400`, or `403`. The client is successfully authenticated but not authorized to use this grant type.
+
+  : <dfn noexport>`access_denied`</dfn>
+  :: Status code `400`, or `403`. The access request is denied.
+
+  : <dfn noexport>`temporarily_unavailable`</dfn>
+  :: Status code `400`. The [=[AS]=] is temporarily unable to process the request.
+
+  : <dfn noexport>`server_error`</dfn>
+  :: Status code `400`. The [=[AS]=] could not process the request due to unforeseen circumstances.
+
+</section>
