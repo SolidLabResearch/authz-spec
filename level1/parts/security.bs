@@ -1,0 +1,69 @@
+<article>
+
+# Security # {#h-sec}
+
+<section>
+
+## Channel security ## {#h-sec-chan}
+
+As specified by [[!UMA-Fed]], [[UMA-Fed#api-sec|§ 1.3]], all interactions via the [=[PAPI]=] [MUST] happen over an [[!RFC9112|HTTP/1.1]] channel (or higher) protected by [[!RFC8446|TLS 1.3]] (or higher), and in accordance with the recommendations formulated in [[!RFC9325]].
+
+  ISSUE: Require key exhange algorithms based on ephemeral Diffie–Hellman ciphers (TLS_DHE and TLS_ECDHE) to ensure forward secrecy.
+
+  ISSUE: Require HTTP/2, which includes the requirements above, and patches some vulnerabilities in (m)TLS negotiation.
+
+  ISSUE: In the long-term, abstract from HTTP towards any SASL-aware application layer (cf. draft-vanrein-httpauth-sasl-06) . Conversely, enable HTTP-delivered OAuth tokens to be presented to SASL resource servers with rfc7628.
+
+  ISSUE: In the long-term, add support for DTLS & QUIC.
+
+</section>
+<section>
+
+## Message security ## {#h-sec-msg}
+
+Messages from the [=[RS]=] to the [=[AS]=] [MUST] be protected with a [=[PAT]=], as defined in [[!UMA-Fed]], [[UMA-Fed#api-sec|§ 1.3]].
+
+  ADVISEMENT: This is a deviation from the Level 0 specification, to realign with classic UMA.
+
+  <div class="issue">
+    Subsitute with 
+      - HTTP Message Signatures + Well-Known JWK Set (cf. L0, but loosen fixed URL, since pointer in config)
+      - mutual TLS (with OAuth mTLS grant ?)
+      - password-based challenge–response authentication (e.g., SCRAM over TLS/SASL)
+      - (augmented) password-only authentication and key exchange (e.g., CPake or OPAQUE)
+  </div>
+
+Messages from the [=[AS]=] to the [=[RS]=] [SHOULD] be protected with a HTTP Message Signature [[RFC9421]] using one of the keys present in the [=JWK Set=] refered to in the [=[AS]'s=] metadata.
+
+  ISSUE: decide on minimal headers/components to sign
+
+</section>
+<section>
+
+## Application security ## {#h-sec-app}
+
+The [=[AS]=] preferably interacts with [=[RO]s=] and other [=agents=] through a (web) application, providing them with a graphical user interface. Since this broadens the attack surface for malicious actors, the [=[AS]=] [MUST] protect the security of its applications adequately by modern standards. 
+
+In particular, web applications for interaction with the [=[RP]=], e.g., during [=claims gathering=] (cf. [=claims interaction endpoint=]), or with the [=RO=], e.g., for policy management, [MUST] implement Cross Origin and Content Security policies, and [=SHOULD=] take into account the sources bundled in [[CRE-636-347]].
+
+<!-- cf. rfc6454, rfc8820, rfc9110 -->
+
+Moreover, in interactive flows that make use of redirection of the user agent (browser), e.g., claims gathering at the claims interaction endpoint, the [=[AS]=] [SHOULD] allow requests to include a `state` parameter, and [=clients=] [SHOULD] employ this parameter to track the valid state of the interaction. The value of the `state` parameter [SHOULD] be unguessable and opaque to any [=agent=] but the [=client=] itself, and [SHOULD NOT] include (unencrypted) sensitive information. If such a `state` parameter is used, [=clients=] [MUST] check the value after the [=[AS]=] redirects back to them, and [MUST] invalidate any message containing an invalid `state` parameter.
+
+  ISSUE: make accepting state param a must for AS: the [=[AS]=] [MUST] include it unaltered in the redirection to the [=client=]
+
+</section>
+<section>
+
+## Linking an RS to an AS ## {#h-sec-link}
+
+The [=[RO]=] links a [=[RS]=] to their [=[AS]=] by providing the former with the root [URI] of the latter, i.e., the [=[AS]'s=] [=issuer=] value (cf. [[#h-meta-as]]). How this information is provided, is out of the scope of this specification. 
+
+  ISSUE: Presuming most ASs will come with some kind of native app, a QR-based flow would be handy. We could specify how, after scanning an RS's QR code, the AS (app) would contact that RS on a [WK-URI] to initiate contact, either through a redirect [URI] or by specifying a code to be checked/entered.
+
+As soon as [=[RS]=] and [=[AS]=] are known to each other, the former can request a [=[PAT]=] from the latter. This [MUST] happen via an [[OAuth20]] flow that both servers support. In most cases, this [SHOULD] include interaction of the [=[RO]=], e.g., via the authorization code flow using redirects of the [=[RO]'s=] user-agent, but other [[OAuth20]] flows [MAY] be employed.
+
+To prevent the [=[RO]=] from having to confirm the authorization every time a token expires, the [=[AS]=] [SHOULD] inlcude a refresh token in each successful token response.
+
+</section>
+</article>
