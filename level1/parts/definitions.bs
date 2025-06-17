@@ -1,0 +1,110 @@
+<section>
+
+# Definitions # {#h-def}
+
+  ISSUE: Refer to OAuth 2.1 only, as soon as it is out of draft.
+
+  ISSUE: Specify resource owner and relying parties to be natural or legal persons or groups of people.
+
+  : <dfn noexport lt="agent|party">Agent</dfn>
+  :: A party consisting of on or more (natural and/or legal) persons/entities performs a certain (active) role in [DASH] or with respect to [DASH] the [A4DS] [=authorization process=].
+    
+  : <dfn noexport>Resource</dfn>
+  :: A resource on the [=[RS]=], as defined by [[!OAuth20]]. Within the [A4DS] specification, <dfn noexport lt="protected resource">protected</dfn> are resources protected using the specified [UMA] profile (cf. [=asset=]). 
+
+    NOTE: Resources are not limited to 'data', 'documents', or 'endpoints' in the classical use of those terms. They can be any **identifiable entity**, e.g., abstract concepts, future data points, unavailable content, applications, services, physical artefacts etc.
+
+  : <dfn noexport lt="scope|action|mode|role">Scope</dfn>
+  :: A *modal slice of functionality* on [=resources=], represented by an opaque identifier, understood only by the [=[RS]=]. 
+
+    The [=[RS]=] uses scopes to delineate specific privileges towards resources, that might require separate policy management: separable parts of information, different actions or operations, specific relations (roles) with the [=[RP]=] etc. By distinguishing the multiple scopes that are applicable to one or more resources, the [=[RS]=] allows the [=[RO]=] a more fine-grained control.
+
+    NOTE: This specification holds the terms 'scope', 'mode', 'action', 'operation', and 'role' to be interchangeable. Unless a specific alternative proves more adequate, the terms 'scope' and 'action' will be preferred.
+
+  : <dfn noexport>Resource owner</dfn> (<abbr title="Resource owner">RO</abbr>)
+  :: An [=agent=] who is capable of granting access to a [=protected resource=], as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=resource owner=]</l>).
+
+  : <dfn noexport>Resource server</dfn> (<abbr title="Resource server">RS</abbr>)
+  :: The server hosting the [=protected resources=], as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=resource server=]</l>).
+
+  : <dfn noexport>Requesting party</dfn> (<abbr title="Requesting party">RP</abbr>)
+  :: An [=agent=] who seeks access to a [=protected resource=], which may also be the [=resource owner=] itself, as defined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=requesting party=]</l>).
+
+  : <dfn noexport>Client</dfn>
+  :: An application making [=protected resource=] requests on behalf of the [=requesting party=], as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=client=]</l>).
+
+  : <dfn noexport>Authorization server</dfn> (<abbr title="Authorization Server">AS</abbr>)
+  :: The server issuing access tokens to the client, as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=authorization server=]</l>).
+
+  : <dfn noexport>Protection API</dfn>
+  :: The OAuth-protected API presented by the authorization server to the resource server, as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=protection API=]</l>).
+
+  : <dfn noexport>Protection API access token</dfn> (<abbr title="Protection API access token">PAT</abbr>)
+  :: The access token used by the [=[RS]=] to access the [=[PAPI]=] of the [=resource owner's=] [=[AS]=], as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=protection API access token=]</l>).
+
+  : <dfn noexport>Resource description</dfn> (<abbr title="Resource description">RD</abbr>)
+  :: A description of the characteristics of a [=resource=], sufficiently for an [=[AS]=] to protect it. Resource descriptions are typically serialised as a [JSON] document, as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=resource description=]</l>).
+
+    An <dfn export>updated resource description</dfn> is a [=resource description=] interpreted as an update to the knowledge base of the [=[AS]=]. Likewise [=resource descriptions=] stored within that knowledge base are called <dfn export>stored resource descriptions</dfn>.
+
+  : <dfn noexport>Scope description</dfn> (<abbr title="Scope description">SD</abbr>)
+  :: [JSON] document that describes the characteristics of a [=resource scope=] sufficiently for an [=[AS]=] to protect the [=resource=] under this available scope, as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=resource description=]</l>).
+
+    An <dfn export>updated scope description</dfn> is a [=scope description=] interpreted as an update to the knowledge base of the [=[AS]=]. Likewise [=scope descriptions=] stored within that knowledge base are called <dfn export>stored scope descriptions</dfn>.
+
+  : <dfn export>Asset</dfn>
+  :: A [=protected resource=], as viewed from the perspective of the [=[AS]=] protecting it, i.e., the [=resource=] as target of [=policies=]. Although these terms might thus be used interchangeably, within this document they are used separately to provided added clarity regarding the context.
+
+  : <dfn local-lt="collection">Asset collection</dfn>
+  :: A virtual [=asset=], representing the (unique, complete) set of [=resources=] that are related to one other specific resource in a specific way. The common relation is called the <dfn export>determinant relation</dfn> of the collection; (the [=asset=] representing) the common target is called the <dfn lt="collection source|source asset">source</dfn>. 
+
+    Asset collections allow the [=[RO]=] to defined **default** [=policies=] over sets of similar [=resources=]: when a policy is defined on a collection, it will automatically apply to all its members, unless a more specific policy is set on the member itself. An asset collection can therefore also be interpreted as the **prototype** [=asset=] for all (current and future) [=assets=] in that set.
+
+  : <dfn noexport>Claim</dfn>
+  :: A statement about an entity, presented by the requesting party [DASH] via the client application [DASH] and collected by the [=[AS]=], during the authentication process. Policies protecting a resource can be conditional upon claims: authorization is only provided when specific claims are available and the conditions on them fulfilled. *The totality of claims involved in an authorization process forms the agreement under which the authorization holds.*
+
+    [UMA] provides two mechanisms for [=[RP]s=] to provide claims to the [=[AS]=]:
+  
+      - <dfn noexport>Claims pushing</dfn>: ... (Section 3.3.1)
+      - <dfn noexport>Interactive claims gathering</dfn>: ... (Section 3.3.2)
+
+      ISSUE: todo
+
+  : <dfn noexport>Claim token</dfn>
+  :: A serialised form of one or more claims, encoded according to a specific <dfn noexport>claim token format</dfn>, to exchange them in a verifiable manner.
+
+ <!--
+
+  : <dfn noexport>Resource registration endpoint</dfn>
+  :: The endpoint (and [URI]) at which the [=[RS]=] can register and manage [=resources=] under the protection of the [=[AS]=].
+
+  : <dfn noexport>Permission endpoint</dfn>
+  :: The endpoint (and [URI]) at which the [=[RS]=] can create a [=permission ticket=] on the [=client's=] behalf. This allows the [=[RS]=] to specifically request the [=permissions=] neccessary to execute the [=client's=] attempted resource request.
+
+  : <dfn noexport>Introspection endpoint</dfn>
+  :: The endpoint (and [URI]) at which the [=[RS]=] can request more details about an [=access token=]: the response of the [=[AS]=] includes the associated permissions, expiration times etc.
+
+ -->
+
+  : <dfn noexport>Permission</dfn>
+  :: The (requested or granted) access to a particular [=resource=] within one or more [=scopes=] bound to that [=resource=], i.e., the privilege to exercise one or more [=actions=] over an [=asset=] if all [=constraints=] are [=satisfied=] and all [=duties=] fulfilled.
+
+    A <dfn noexport>Permission description</dfn> ...
+
+      ISSUE: todo
+  
+  : <dfn noexport>Permission ticket</dfn>
+  :: A correlation handle representing one or more requested permissions. It is an opaque identifier, understood only by the [=[AS]=], used to track the set of requested permissions between the different steps of the authorization process.
+
+  : <dfn noexport>Authorization process</dfn>
+  :: The process through which the authorization server determines whether it should issue an RPT to the client on the requesting party's behalf, based on a variety of inputs. A key component of the process is authorization assessment. (See Section 1.3.1.)
+
+  : <dfn noexport lt="access request|permission request">Access request</dfn>
+  :: ...
+
+    ISSUE: todo
+
+  : <dfn noexport local-lt="access token">Requesting party token</dfn> (<abbr title="Requesting party token">RPT</abbr>)
+  :: An [OAuth20] access token, associated with the [UMA] <l spec="rfc6749">[=authorization grant=]</l>, which represents one or more permissions granted as a result of an [=authorization process=]. It uniquely identifies the [=[RP]=], [=client=], [=[AS]=], [=[RS]=], and [=[RO]=] involved in the [=authorization process=].
+
+</section>
