@@ -1,0 +1,82 @@
+<!doctype html><html lang="en">
+<!-- 
+ Boilerplate: https://github.com/speced/bikeshed-boilerplate/blob/main/boilerplate/
+-->
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- <meta name="author" content="...">
+<meta name="description" content="...">
+<meta property="..." content="..."> -->
+
+<!-- <link rel="license" href="">
+<link rel="canonical" href="">
+<link rel="author" href=""> -->
+
+<meta default-style>
+
+<style data-fill-with="stylesheet"></style>
+
+<link rel="stylesheet" href="assets/font.css" />
+<link rel="stylesheet" href="assets/style.css" />
+<link rel="stylesheet" href="https://fred-wang.github.io/MathFonts/LatinModern/mathfonts.css" />
+<script src="https://fred-wang.github.io/mathml.css/mspace.js"></script>
+
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+
+<title>[TITLE]</title>
+
+</head>
+
+<body class="h-entry">
+
+<header class="head">
+ <div data-fill-with="logo"></div>
+ <hgroup>
+  <h1 id="title" class="p-name no-ref">[TITLE]</h1>
+  <h2 id="profile-and-date" class="no-num no-toc no-ref">
+   [LONGSTATUS], <time class="dt-updated" datetime="[ISODATE]">[DATE]</time>
+  </h2>
+ </hgroup>
+</header>
+
+<footer class="head">
+ <div data-fill-with="spec-metadata"></div>
+ <div class='copyright' data-fill-with='copyright'></div>
+ <hr>
+</footer>
+
+<div class="p-summary" data-fill-with="abstract"></div>
+
+<div data-fill-with="warning"></div>
+<div data-fill-with="at-risk"></div>
+
+<nav data-fill-with="table-of-contents" id="toc"></nav>
+
+<aside boilerplate="conformance">
+
+<h2 id="h-conform" class="no-ref no-num">Conformance</h2>
+
+<p>Conformance requirements are expressed in the normative parts of this document, using a combination of descriptive assertions and [[!RFC2119 inline]]. All the text of this specification is normative, except for sections starting with the declaration "[NO-NORM]", and the specific informative parts mentioned below.</p>
+
+<p>The key words "[MUST]", "[MUST-NOT]", "[REQUIRED]", "[SHALL]", "[SHALL-NOT]", "[SHOULD]", "[SHOULD-NOT]", "[RECOMMENDED]", "[MAY]", and "[OPTIONAL]" are to be interpreted as described in [[!RFC2119]]. For readability, in styled versions of this document these key words will be styled to stand out from the text.</p>
+
+<p>Apart from sections explicitly declaring themselves to be non-normative, the informative parts of this document include **examples**, **notes**, **assertions**, **advisements**, and **issues**. These parts are either explicitly introduced, e.g., "For example", "Note that" [DASH] in which case they are typically limited to the end of the section or paragraph in which they occur [DASH] or they are set apart from the normative text by assigning them a markup class, .e.g, `class="advisement"`, `class="issue"`. In the latter case, styled versions of this document will display them as blocks standing out from the text.</p>
+
+For example:
+<div id="ex-advisement" class="no-num advisement">This is an advisement.</div>
+<div id="ex-assertion" class="no-num assertion">This is an assertion.</div>
+<div id="ex-note" class="no-num note">This is a note.</div>
+<div id="ex-example" class="no-num example">This is an example.</div>
+<div id="ex-issue" class="no-num issue">This is an issue.</div>
+
+<!-- <wpt title="Tests relating to the content of this specification may be documented in “Tests” blocks. Any such block is non-normative."></wpt> -->
+
+</aside>
+
+<main>
+
+<!-- ... -->
