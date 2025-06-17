@@ -83,5 +83,14 @@
     "title": "OAuth Client ID Metadata Document",
     "status": "Active Internet-Draft",
     "publisher": "IETF"
+  },
+  "cre-636-347": {
+    "authors": [
+      "OWASP"
+    ],
+    "date": "n.d.",
+    "href": "https://opencre.org/cre/636-347",
+    "title": "CRE 636-347: HTTP security headers",
+    "publisher": "OpenCRE"
   }
 }
