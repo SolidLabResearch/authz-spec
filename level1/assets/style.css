@@ -1,29 +1,23 @@
 
 :root {
   --color-main: #0ead69;
-  --color-main-t85: rgba(14, 173, 105, 0.85);
-  --color-main-t50: rgba(14, 173, 105, 0.50);
-  --color-main-t10: rgba(14, 173, 105, 0.10);
-  --color-main-light: #7bd2ad;
+  --color-main-light: rgba(14, 173, 105, 0.85);
   --color-main-dark: #0b7e4d;
   --color-bg: white;
 
   --heading-text: var(--color-main-dark) !important;
 
-  --a-normal-text: var(--color-main) !important;
-  --a-normal-underline: var(--color-main-t50) !important;
-  --a-visited-text: var(--color-main-dark) !important;
-  --a-visited-underline: var(--color-main-t50) !important;
+  --a-normal-text: var(--color-main-dark) !important;
+  --a-normal-underline: var(--color-main-light) !important;
+  --a-visited-text: var(--color-main-light) !important;
+  --a-visited-underline: var(--color-main-light) !important;
 
-  --a-hover-bg: var(--color-main-t10) !important;
+  --a-hover-bg: #fff !important;
   
   --toclink-text: var(--color-main-dark) !important;
-  --toclink-underline: var(--color-main-t50) !important;
-  --toclink-visited-text: var(--color-main-dark) !important;
-  --toclink-visited-underline: var(--color-main-t50) !important;
-  
-  --note-bg: var(--color-main-t10) !important;
-  --note-border: var(--color-main) !important;
+  --toclink-underline: var(--color-main-light) !important;
+  --toclink-visited-text: var(--color-main-light) !important;
+  --toclink-visited-underline: var(--color-main-light) !important;
 }
 
 h1 { color: var(--color-main) !important; }
@@ -47,17 +41,42 @@ body {
 .advisement:not(.no-marker)::before { content: "Advisement " counter(advisement); }
 */
 
+p:not(:has(> .rfc2119:first-child))::first-letter {
+  text-transform: capitalize;
+}
+
+.sc {
+  font-variant: small-caps;
+}
+
+.inline-note {
+  font-style: italic;
+  
+  &::before {
+    content: "note: ";
+    color: var(--color-conformance);
+    font-style: initial;
+    font-size: 1.35em;
+    font-weight: bold;
+    font-variant: all-small-caps;
+  }
+}
+
 .note,
 .issue,
 .example,
 .assertion,
 .advisement {
   font-size: .9em;
+
+  &.no-num {
+    counter-increment: none !important;
+  }
 }
 
-a.self-link {
-  font-size: 1.2em;
-  text-decoration: none;
+#start {
+  counter-reset: example 0;
+  counter-set: example 0;
 }
 
 pre, code {
@@ -65,21 +84,55 @@ pre, code {
   font-style: normal;
 }
 
-em.rfc2119 {
-  text-transform: lowercase;
-  font-variant: small-caps;
-  font-style: normal;
+#toc-nav a {
+  text-decoration: none;
+}
+
+a.self-link {
   font-size: 1.2em;
-  color: #900;
+  text-decoration: none;
+}
+
+a.rfc2119 {
+  text-decoration: none;
+
+  & * {
+    text-transform: lowercase;
+    font-variant: small-caps;
+    font-style: normal;
+    font-size: 1.2em;
+    color: #900;
+  }
+}
+
+ol {
+  list-style-type: upper-roman;
+  & ol {
+    list-style-type: decimal;
+    & ol {
+      list-style-type: lower-roman;
+    }
+  }
 }
 
 dt {
   margin-top: 0.8em;
 }
 
-[data-link-type=biblio] { 
+[data-link-type="biblio"] { 
   /* allows breaks in inline references */ 
   white-space: normal !important;
+}
+
+.copyright {
+  margin-top: 2em;
+  font-size: .85em;
+
+  & img {
+    max-width: 1em;
+    max-height: 1em;
+    margin-left: .2em;
+  }
 }
 
 /* .
