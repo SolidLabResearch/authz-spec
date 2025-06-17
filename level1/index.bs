@@ -1,81 +1,91 @@
-
-<!-- 
-Metadata Include
-Metadata Order
-At Risk
-Warning
-Custom Warning Title
-Custom Warning Text
-Favicon: assets/favicon.ico
-Logo: assets/logo.png
--->
-
 <pre class="metadata">
+Local Boilerplate: defaults yes
 
-Title: Authorization for Data Spaces
 H1: Authorization for Data Spaces (A4DS)
+Title: Authorization for Data Spaces
 Shortname: A4DS
-
-Status: LD
 Revision: 1
-Work Status: exploring
-
-Editor: Wouter Termont, imec
+Status: LD
 
 ED: https://spec.knows.idlab.ugent.be/A4DS/L1/latest
 Previous Version: https://spec.knows.idlab.ugent.be/A4DS/L0/latest
 Repository: https://github.com/SolidLabResearch/authz-spec
 
-Dark Mode: no
-Max ToC Depth: 2
-Use Dfn Panels: yes
-Remove Multiple Links: yes
-Image Auto Size: yes
-Markup Shorthands: markdown yes, macros-in-autolinks yes, markup no, css no, idl no
-Default Highlight: javascript
-Line Numbers: yes
-External Infotrees: anchors.bsdata yes, link-defaults.infotree yes
-Assume Explicit For: yes
-Prepare For TR: yes
+Editor:
+ Wouter Termont, IDLab https://idlab.ugent.be
 
-Complain About: accidental-2119 yes, broken-links no, missing-example-ids yes, mixed-indents yes
-Link Checker Timeout: 10 30
-
-Die On: fatal
-Die When: late
+Abstract: 
+ Authorization for Data Spaces (A4DS) is a profile for the User-Managed Access (UMA) specifications ...
 
 </pre>
 
-<link rel="icon" href="assets/favicon.ico">
-<div boilerplate="logo" class="logo">
-  <a href="https://knows.idlab.ugent.be/">
-      <img alt="KNoWS" src="assets/logo.png" width="126" height="75">
-  </a>
-</div>
+<!-- Add to final version of each revision
+Warning: Custom
+Custom Warning Title: Next level available: A4DS L1
+Custom Warning Text: 
+ This documents specifies an initial explorative level of the Authorization for Data Spaces (A4DS L0). A draft of the next level (A4DS L1) is available at <a href="https://spec.knows.idlab.ugent.be/A4DS/L1/latest/">https://spec.knows.idlab.ugent.be/A4DS/L1/latest/</a>.
+-->
 
-<link rel="stylesheet" href="assets/font.css" />
-<link rel="stylesheet" href="assets/style.css" />
+<!-- TODO: add more examples & explainers
+<aside class="example" id="ex-...">
+  <details>
+    <summary>Example request ...</summary>
+   
+    ...
+  
+    <pre highlight=http>
+    GET &lt;id&gt; HTTP/1.1
+    </pre>
 
-<link rel="stylesheet" href="https://fred-wang.github.io/MathFonts/LatinModern/mathfonts.css" />
-<script src="https://fred-wang.github.io/mathml.css/mspace.js"></script>
+  </details>
+</aside>
+-->
 
-<!-- use <l></l> if autolinks are not working in some contexts -->
+<pre class="include">
+path: parts/status.bs
+</pre>
+
+<pre class="include">
+path: parts/intro.bs
+</pre>
+
+<pre class="include">
+path: parts/definitions.bs
+</pre>
+
+<pre class="include">
+path: parts/metadata.bs
+</pre>
+
+<pre class="include">
+path: parts/security.bs
+</pre>
+
+<pre class="include">
+path: parts/papi.bs
+</pre>
+
+<pre class="include">
+path: parts/policies.bs
+</pre>
+
+<pre class="include">
+path: parts/request-resource.bs
+</pre>
+
+<pre class="include">
+path: parts/request-access.bs
+</pre>
+
+<pre class="include">
+path: parts/claims.bs
+</pre>
+
+<pre class="include">
+path: parts/evaluation.bs
+</pre>
+
 <pre class="metadata">
-
-Text Macro: NO-NORM *This section is non-normative.*
-
-Text Macro: MUST <em class="rfc2119">MUST</em>
-Text Macro: SHALL <em class="rfc2119">SHALL</em>
-Text Macro: SHOULD <em class="rfc2119">SHOULD</em>
-Text Macro: MAY <em class="rfc2119">MAY</em>
-Text Macro: REQUIRED <em class="rfc2119">REQUIRED</em>
-Text Macro: RECOMMENDED <em class="rfc2119">RECOMMENDED</em>
-Text Macro: OPTIONAL <em class="rfc2119">OPTIONAL</em>
-Text Macro: MUST-NOT <em class="rfc2119">MUST NOT</em>
-Text Macro: SHALL-NOT <em class="rfc2119">SHALL NOT</em>
-Text Macro: SHOULD-NOT <em class="rfc2119">SHOULD NOT</em>
-Text Macro: NOT-RECOMMENDED <em class="rfc2119">NOT RECOMMENDED</em>
-
 Text Macro: DASH &ndash;
 
 Text Macro: A4DS <abbr title="Authorization for Data Spaces">A4DS</abbr>
@@ -88,385 +98,10 @@ Text Macro: RP requesting party
 Text Macro: PAPI protection API
 Text Macro: PAT protection API access token
 
-Text Macro: JSON <l>[[!JSON|JSON]]</l>
 Text Macro: URI <l>[[!RFC3986|URI]]</l>
 Text Macro: HTTP <l>[[!RFC9110|HTTP]]</l>
+Text Macro: JSON <l>[[!RFC8259|JSON]]</l>
+Text Macro: JSON-LD <l>[[!JSON-LD11|JSON-LD]]</l>
 Text Macro: MEDIA-TYPE <l>[[!RFC6838|Media Type]]</l>
+Text Macro: WK-URI <l>[[!RFC8615|Well-Known URI]]</l>
 </pre>
-
-<pre class="metadata">
-Abstract: 
-  Authorization for Data Spaces (A4DS) is a profile for the User-Managed Access (UMA) specifications ...
-</pre>
-
-<div boilerplate="copyright">
-  <!-- Copyright © 2024 imec. This document is made available under the MIT License. -->
-</div>
-
-<h2 id="h-status" class="no-num">Status of this document</h2>
-
-  [NO-NORM]
-
-  This document is a draft for a technical specification published by the [Knowledge on Web Scale](https://knows.idlab.ugent.be/) (KNoWS) group of the [Internet Technology and Data Science Lab](https://idlab.ugent.be/) (IDLab), an [imec](https://www.imec-int.com/)-affiliated research group at [Ghent University](https://ugent.be/) (UGent).
-
-  It is a working document, that has NOT been publically reviewed, but represents active research at its time of publication. As such, document may be subject to changes, and other documents may supersede it at any time. 
-
-  The specification proposed in this document is being drafted in multiple stages. 
-
-  - **Level 0** describes the interfaces and protocols of the final prototype implementation presented in the white paper [[UMA-Trust inline]] [[UMA-Trust]]. It lays the groundwork for the general flow of the protocol.
-  - **Level 1**, specified in this current draft, builds on Level 0, addressing some minor shortcomings discussed in the white paper, and optimising alignment with existing standards.
-  - **Level 2** and higher will build on Level 1, to cover the more extensive questions left open in the white paper.
-
-  Comments regarding this document are welcome, via the [GitHub issue tracker](https://github.com/SolidLabResearch/authz-spec/issues/), but the editors do NOT guarantee that this feedback will be processed, or when.
-
-  <!-- A (non-exhaustive) list of current IDLab specifications, including the latest revision of this document, can be found on the IDLab specification platform at https://specs.idlab.be/. --> 
-
-# Introduction # {#h-intro}
-
-  [NO-NORM]
-
-  *User-Managed Access* ([UMA]) is a pair of complementary extensions to [[OAuth20 inline]] [[OAuth20]], published by the Kantara Initiative. It comprises the following specifications:
-
-  - [[UMA-Grant inline]], which defines a new [=authorization grant=] that enables party-to-party authorization and asynchronous policy configuration [[UMA-Grant]].
-  - [[UMA-Fed inline]], which adds a [=protection API=] enabling the federation of [=resource servers=] and [=authorization servers=], enabling improved automation, central monitoring and a more granular control over resources and scopes [[UMA-Fed]].
-
-  This document introduces a profile for the combined [UMA] specifications, called **Authorization for Data Spaces** ([A4DS], read as 'affords'). 
-
-  ...
-
-# Definitions # {#h-def}
-
-  ISSUE: Refer to OAuth 2.1 only, as soon as it is out of draft.
-
-  ISSUE: Specify resource owner and relying parties to be natural or legal persons or groups of people.
-
-  : <dfn noexport local-lt="RO">Resource owner</dfn> (<abbr title="Resource owner">RO</abbr>)
-
-  :: An entity capable of granting access to a protected resource, as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=resource owner=]</l>).
-
-  : <dfn noexport local-lt="RS">Resource server</dfn> (<abbr title="Resource server">RS</abbr>)
-
-  :: The server hosting the protected resources, as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=resource server=]</l>).
-
-  : <dfn noexport local-lt="RP">Requesting party</dfn> (<abbr title="Requesting party">RP</abbr>)
-
-  :: An entity that seeks access to a protected resource, which may also be the resource owner itself, as defined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=requesting party=]</l>).
-
-  : <dfn noexport local-lt="C">Client</dfn>
-  
-  :: An application making protected resource requests on behalf of the **requesting party**, as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=client=]</l>).
-
-  : <dfn noexport local-lt="AS">Authorization server</dfn> (<abbr title="Authorization Server">AS</abbr>)
-
-  :: The server issuing access tokens to the client, as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=authorization server=]</l>).
-
-  : <dfn noexport local-lt="PAPI">Protection API</dfn>
-
-  :: The OAuth-protected API presented by the authorization server to the resource server, as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=protection API=]</l>).
-
-  : <dfn noexport local-lt="PAT">Protection API access token</dfn> (<abbr title="Protection API access token">PAT</abbr>)
-
-  :: The access token used by the resource server to access the protection API of the resource owner's authorization server, as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=protection API access token=]</l>).
-
-
-<!-- TODO: add examples
-  <div class="example" id="ex-...">
-
-      Example request ...
-      
-      <pre highlight=http>
-          GET &lt;id&gt; HTTP/1.1
-      </pre>
-
-  </div>
--->
-
-<!-- TODO: add explainers
-  <details class="explainer" id="...">
-
-    <summary>Shopping list</summary>
-
-    * Vegetables
-    * Fruits
-    * Fish
-
-  </details>
--->
-
-
-# Public metadata # {#h-meta}
-
-  To inform other parties about their API endpoints and capabilities, [=clients=], [=[RS]s=] and [=[AS]s=] declare this metadata in discovery documents that are publically readable.
-
-
-## Client metadata ## {#h-meta-client}
-
-  [=Clients=] [MUST] be identifiable with an HTTPS URL, which [MUST] dereference to a [JSON] document containing the metadata of the client, in accordance with [[!Client-Meta]].
-  
-    <div class="examplenote" id="note-client_ids">
-      Identifier URLs therefore [MAY] contain a port number, [MUST] contain a path component, and [MUST-NOT] contain single- or double-dot path segments, a fragment or query component, or a username or password.
-    </div>
-
-  In particular, the following client metadata properties are relevant for this specification.
-
-    : <dfn noexport>`client_id`</dfn>
-    :: [REQUIRED].  The [=client's=] identifier URL. The value of this property [MUST] be identical to the URL on which the document is served. [[!Client-ID]]
-
-    : <dfn noexport>`redirect_uris`</dfn>
-    :: [REQUIRED].  An array of redirection URLs to use in redirect-based flows. [[!Client-Meta]]
-
-    : <dfn noexport>`token_endpoint_auth_method`</dfn>
-    :: [OPTIONAL].  For confidential [=clients=], this property is [REQUIRED], and [MUST] be set to `private_key_jwt`. [[!Client-Meta]]
-
-    : <dfn noexport lt="client's JWK Set">`jwks` / `jwks_uri`</dfn>
-    :: [OPTIONAL].  For confidential [=clients=], exactly one of these properties is [REQUIRED]. Either `jwks` [MUST] contain the [JSON] JWK Set of the [=client=], or `jwks_uri` [MUST] be set to the HTTPS URI of a [JSON] document containing this JWK Set. [[!Client-Meta]]
-  
-    ISSUE: Should we also allow (dynamic) registration? E.g. for clients that cannot host anything?
-
-    ISSUE: Look into extending this to DIDs + DID Documents (using a limited list of DID methods, or the universal resolver).
-
-
-## Authorization server metadata ## {#h-meta-as}
-
-  [=[AS]s=] [MUST] publish Authorization Server Metadata in a discovery document that is publically readable on the well-known URI (cf. [[!WK-URI]]) formed by appending the string `/.well-known/uma2-configuration` to the root URI of the [=[AS]=]. The document [MUST] be formatted as [JSON] and adhere to [[!AS-Meta]], as specified by [[!UMA-Grant]], [[UMA-Grant#as-config|§ 2]], and [[!UMA-Fed]], [[UMA-Fed#as-config|§ 2]]. The following metadata parameters are of special concern to this specification.
-
-    : <dfn noexport>`uma_profiles_supported`</dfn>
-    :: [REQUIRED].  UMA profiles and extensions supported by this [=[AS]=]. Its value [MUST] be a [JSON] array containing the URI `...` as a [JSON] string value, to identify the profile specified in this document. [[!UMA-Grant]]
-
-      ISSUE: decide on profile URI
-
-    : <dfn noexport>`client_id_metadata_document_supported`</dfn>
-    :: [REQUIRED].  This property [MUST] be set to `true`, indicating that the [=AS=] supports retrieving client metadata from a [=client_id=] URL. [[!Client-ID]]
-
-    : <dfn noexport>`issuer`</dfn>
-    :: [REQUIRED].  The [=[AS]'s=] identifier. [[!AS-Meta]]
-
-    : <dfn noexport local-lt="resource registration endpoint">`resource_registration_endpoint`</dfn>
-    :: [REQUIRED].  The URI at which the [=[RS]=] registers resources to put them under protection of the [=[AS]=], as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=resource registration endpoint=]</l>).
-
-    : <dfn noexport local-lt="permission endpoint">`permission_endpoint`</dfn>
-    :: [REQUIRED].  The URI at which the [=[RS]=] requests permission from the [=[AS]=] on the [=client's=] behalf, as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=permission endpoint=]</l>).
-
-    : <dfn noexport local-lt="token endpoint">`token_endpoint`</dfn>
-    :: [REQUIRED].  The URL at which the [=client=] requests an access token from the [=[AS]=], as defined by [[!OAuth20]] and refined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=token endpoint=]</l>).
-
-    : <dfn noexport local-lt="introspection endpoint">`introspection_endpoint`</dfn>
-    :: [REQUIRED].  The URL at which the [=[RS]=] can retrieve information about a token, including whether this token is currently active, as defined by [[!RFC7662]] and refined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=introspection endpoint=]</l>).
-
-    : <dfn noexport local-lt="claims-interaction endpoint">`claims_interaction_endpoint`</dfn>
-    :: [OPTIONAL].  The URI at which the [=[AS]=] can interact with [=[RP]s=] to gather claims, as defined by [[!UMA-Grant]] (cf. <l spec=uma-grant>[=claims interaction endpoint=]</l>).
-
-      ISSUE: Should be RECOMMENDED, or even REQUIRED instead
-
-    : <dfn noexport>`jwks_uri`</dfn>
-    :: [OPTIONAL].  The URL at which the [=[AS]=] serves its JWK Set (cf. [[JWK]]), which contains the public key(s) used to validate signatures from the authorization server. [[!AS-Meta]]
-
-      ISSUE: Should be RECOMMENDED, or even REQUIRED instead
-
-
-## Resource server metadata ## {#h-meta-rs}
-
-  To be securely identifiable, the [=[RS]=] [MUST] declare a JSON Web Key Set [[JWK]] on the Well-Known URI `/.well-known/jwks.json` [[WK-URI]].
-
-    ISSUE: loosen required url (since ref in discovery anyway)
-
-    ISSUE: use [[Resource-Meta]] (instead of "storage description"), and possibly also [[Client-Meta]]
-
-
-# The federated protection API # {#h-fed}
-
-  The [=[AS]=] [MUST] provide a [=[PAPI]=], as defined by [[!UMA-Fed]], to govern its interactions with one or more [=[RS]s=]. This API consists of three endpoints, listed in the [=[AS]'s=] metadata: the [=resource registration endpoint=], the [=permission endpoint=], and the [=introspection endpoint=].
-
-
-## Security ## {#h-fed-sec}
-
-
-### Channel security ### {#h-fed-sec-chan}
-
-  As specified by [[!UMA-Fed]], [[UMA-Fed#api-sec|§ 1.3]], all interactions via the [=[PAPI]=] [MUST] happen over an [[!RFC9112|HTTP/1.1]] channel (or higher) protected by [[!RFC8446|TLS 1.3]] (or higher), and in accordance with the recommendations formulated in [[!RFC9325]].
-
-    ISSUE: Require key exhange algorithms based on ephemeral Diffie–Hellman ciphers (TLS_DHE and TLS_ECDHE) to ensure forward secrecy.
-
-    ISSUE: Require HTTP/2, which includes the requirements above, and patches some vulnerabilities in (m)TLS negotiation.
-
-    ISSUE: In the long-term, abstract from HTTP towards any SASL-aware application layer (cf. draft-vanrein-httpauth-sasl-06) . Conversely, enable HTTP-delivered OAuth tokens to be presented to SASL resource servers with rfc7628.
-
-    ISSUE: In the long-term, add support for DTLS & QUIC.
-
-
-### Message security ### {#h-fed-sec-msg}
-
-  Messages from the [=[RS]=] to the [=[AS]=] [MUST] be protected with a [=[PAT]=], as defined in [[!UMA-Fed]], [[UMA-Fed#api-sec|§ 1.3]].
-
-    ADVISEMENT: This is a deviation from the Level 0 specification, to realign with classic UMA.
-
-    <div class="issue">
-      Subsitute with 
-        - HTTP Message Signatures + Well-Known JWK Set (cf. L0, but loosen fixed URL, since pointer in config)
-        - mutual TLS (with OAuth mTLS grant ?)
-        - password-based challenge–response authentication (e.g., SCRAM over TLS/SASL)
-        - (augmented) password-only authentication and key exchange (e.g., CPake or OPAQUE)
-    </div>
-
-  Messages from the [=[AS]=] to the [=[RS]=] [SHOULD] be protected with a HTTP Message Signature [[RFC9421]] using one of the keys present in the [=JWK Set=] refered to in the [=[AS]'s=] metadata.
-
-    ISSUE: decide on minimal headers/components to sign
-
-### Linking an RS to an AS ### {#h-fed-sec-link}
-
-  The [=[RO]=] links a [=[RS]=] to their [=[AS]=] by providing the former with the root [=URI=] of the latter, i.e., the [=[AS]'s=] [=issuer=] value (cf. [[#h-meta-as]]). How this information is provided, is out of the scope of this specification. 
-
-    ISSUE: Presuming most ASs will come with some kind of native app, a QR-based flow would be handy. We could specify how, after scanning an RS's QR code, the AS (app) would contact that RS on a well-known URI to initiate contact, either through a redirect URI or by specifying a code to be checked/entered.
-
-  As soon as [=[RS]=] and [=[AS]=] are known to each other, the former can request a [=[PAT]=] from the latter. This [MUST] happen via an [[OAuth20]] flow that both servers support. In most cases, this [SHOULD] include interaction of the [=[RO]=], e.g., via the authorization code flow using redirects of the [=[RO]'s=] user-agent, but other [[OAuth20]] flows [MAY] be employed.
-
-  To prevent the [=[RO]=] from having to confirm the authorization every time a token expires, the [=[AS]=] [SHOULD] inlcude a refresh token in each successful token response.
-
-
-## Resource management ## {#h-fed-res}
-
-
-### Resource registration ### {#h-fed-res-reg}
-
-  In order to make resources accessible via [A4DS], the [=[RS]=] needs to register them at the [=[AS]=]. [[!UMA-Fed]], [[UMA-Fed#resource-registration-endpoint|§ 3]], specifies how to manage these [=resource descriptions=] using CRUD operations within the namespace of the [=resource registration endpoint=].
-
-    ISSUE: go into resource and scope descriptions
-
-    ISSUE: make user_access_policy_uri recommended ?
-
-
-## Requesting a Ticket ## {#h-fed-res-ticket}
-
-  When a client application makes an unauthorized attempt to access resources on an [=[RS]=] [DASH] with an invalid access token, or none at all [DASH] the [=[RS]=] can request a [=permission ticket=] from the relevant [=[AS]=], and provide the ticket to the [=client=] as an indication of the scope of the attempted access, while pointing the [=client=] to the [=[AS]=], as described in [[!UMA-Fed]], [[UMA-Fed#permission-endpoint|§ 4]].
-
-  As specified in [[!UMA-Fed]], [[UMA-Fed#rfc.section.4.1|§ 4.1]], the ticket is requested by sending a `POST` request to the `permission_endpoint`, with an `application/json` body consisting of a permission object or an array of one or more permission objects. Each permission object contains the `resource_scopes` requested for a specific `resource_id`. According to [[!UMA-Fed]], [[UMA-Fed#rfc.section.4.2|§ 4.2]], a successful permission request results in a `201` response containing the `ticket` parameter in an `application/json` body.
-
-  [A4DS] extends the possible responses of the [=[AS]=] to a permission request, to enable better integration with public resources. When the [=[AS]=] can detect within reasonable time that the resources in question are publically accessible, it [SHOULD] signal this to the [=[RS]=] by sending a `200` response without a body instead. This way, the [=[RS]=] can allow the [=client=] to access public resources without a round-trip to the [=[AS]=], thus increasing performance and making public resources accessible for clients that are not aware of the UMA protocol.
-
-
-# Accessing resources at the resource server # {#h-access}
-
-
-## Attempting access WITHOUT a token ## {#h-access-no-token}
-
-  When the [=client=] attempting to access resources has no token authorizing the access, the [=[RS]=] [MUST] request a permission ticket from the [=[AS]=], as specified in [[!UMA-Grant]], [[UMA-Grant#rs-tokenless-response|§ 3.2]], and described in [[#h-fed-res-ticket]]. 
-
-  If the [=[AS]=] responds with status code `200`, the [=[RS]=] [SHOULD] let the attempted access succeed.
-
-  If the [=[AS]=] responds with status code `201` and a `ticket` parameter, the [=[RS]=] [MUST-NOT] let the attempted access succeed. Instead, the [=[RS]=] [MUST] pass this parameter to the [=client=] in the `WWW-Authenticate` header of a `401` response, with the scheme `UMA`, and the `issuer` URI of the [=[AS]=] as an additional parameter `as_uri`, as specified in [[!UMA-Grant]], [[UMA-Grant#permission-success-to-client|§ 3.2.1]] (see also [[!RFC9110]], [[RFC9110#field.www-authenticate|§ 11.6.1]]). 
-  
-  For example:
-
-    ```
-    HTTP/1.1 401 Unauthorized
-    WWW-Authenticate: UMA
-      as_uri="https://as.example.com",
-      ticket="016f84e8-f9b9-11e0-bd6f-0021cc6004de"
-    ...
-    ```
-
-    ISSUE: look into particular use of realm parameter (vs scope) to limit protection space for user/ticket/type
-
-
-## Attempting access WITH a token ## {#h-access-token}
-
-  When the [=client=] attempting to access resources presents the [=[RS]=] with an access token, e.g., a Bearer token passed in the `Authorization` header of the request (cf. [[RFC6750]]), the [=[RS]=] [MUST] determine whether the token is valid and covers the resources and scopes being accessed, as specified in [[!UMA-Grant]], [[UMA-Grant#rs-rpt-response|§ 3.5]] and [[!UMA-Fed]], [[UMA-Fed#introspection-endpoint|§ 5]], using token introspection if necessary (cf. [[RFC7662]]). If this is indeed the case, the [=[RS]=] [SHOULD] process the authorized request. If, on the contrary, the token is invalid, or does not cover the neccessary resources or scopes, the [=[RS]=] [MUST-NOT] give the [=client=] access, and [MUST] instead respond as if the request were unaccompanied by an [=access token=] (cf. infra).
-
-
-  <!--### Attempting access with an INVALID token ### {#h-access-token-invalid}-->
-
-
-  <!--### Attempting access with a VALID token ### {#h-access-token-valid}-->
-
-
-# Requesting access at the authorization server # {#h-authz}
-
-
-## Requesting access WITH a permission ticket ## {#h-authz-ticket}
-
-  Having received a [=permission ticket=] from the [=[RS]=], the [=client=] can turn to the [=[AS]=] to request access for the resource(s) and scope(s) represented by the ticket. This request is sent to the [=token_endpoint=] of the [=[AS]=], as described by [[!UMA-Grant]], [[UMA-Grant#uma-grant-type|§ 3.3.1]].
-
-  The body of the [=access request=] [MAY] be encoded as `application/x-www-form-urlencoded`, as specified in [[!OAuth20]], [[OAuth20#section-4.1.3|§ 4.1.3]] and exemplified in [[!UMA-Grant]], [[UMA-Grant#uma-grant-type|§ 3.3.1]]. However, it is [RECOMMENDED] that the request is encoded as  `application/json` instead.
-
-    ISSUE: add support for Rich Authorization Requests and/or JWT-Secured Authorization Requests and/or Pushed Authorization Requests.
-
-  For example:
-
-    ```
-    POST /token HTTP/1.1
-    Host: as.example.com
-    Content-Type: application/json
-    ...
-
-    {
-      "grant_type": "urn:ietf:params:oauth:grant-type:uma-ticket",
-      "ticket": "016f84e8-f9b9-11e0-bd6f-0021cc6004de",
-      "claim_token_format": "http://openid.net/specs/openid-connect-core-1_0.html#IDToken",
-      "claim_token": "eyj0..."
-    }
-    ```
-
-
-## Requesting access WITHOUT a permission ticket ## {#h-authz-no-token}
-
-  For clients that know the resource(s) and scope(s) they need access to, the [A4DS] profile adds a shortcut that saves them the initial request to the [=[RS]=]. Instead, those clients can address the [=[AS]=] directly, and include the resource(s) and scope(s) directly under the `permissions` parameter. A new ticket is then automatically generated on-the-fly. When present, the `permissions` parameter [MUST] contain a [JSON] array of objects with the following two fields:
-
-    : <dfn noexport>`resource_id`</dfn>
-    :: [REQUIRED].  A string indicating the resource in question, as known to the [=[AS]=]. (Note that this identifier might differ from any related URI at the side of the [=[RS]=]).
-
-    : <dfn noexport>`resource_scopes`</dfn>
-    :: [REQUIRED].  An array of strings representing the scopes requested for the resource in question.
-
-  For example:
-
-    ```
-    POST /token HTTP/1.1
-    Host: as.example.com
-    Content-Type: application/json
-    ...
-
-    {
-      "permissions": {
-        "resource_id": "KX3A-39WE",
-        "resource_scopes": [ 
-          "post-updates",
-          "http://photoz.example.com/dev/scopes/print"
-        ]
-      },
-      "claim_token_format": "http://openid.net/specs/openid-connect-core-1_0.html#IDToken",
-      "claim_token": "eyj0..."
-    }
-    ```
-
-    NOTE: Keycloak employs a similar approach, but restricts the their `permission` to a single string encoding of [JSON] data. Keycloak also allows such requests to target specific resource URIs, so their AS knows more than a standard UMA server.
-
-    ISSUE: Go into the combination of `permissions` and `scope` (and possibly `ticket`).
-
-
-## Claim token formats ## {#h-authz-claims}
-
-  ...
-
-  ISSUE: clarify claim token formats, and discuss advertising them with a parameter separate from uma profiles
-
-
-## Receiving an access token ## {#h-authz-access}
-
-  When the [=[AS]=] concludes that the provided claims are sufficient to grant the [=client=] access to the requested resources, it responds with an [=access token=] and `Authorization` scheme, as specified in [[!UMA-Grant]], [[UMA-Grant#uma-grant-type|§ 3.3.5]] (see also [[!RFC9110]], [[RFC9110#field.authorization|§ 11.6.2]])). 
-  
-  For example:
-
-    ```
-    HTTP/1.1 200 OK
-    Content-Type: application/json
-    ... 
-
-    {  
-      "access_token": "sbjsbhs(/SSJHBSUSSJHVhjsgvhsgvshgsv",
-      "token_type": "Bearer"
-    }
-    ```
-
-  The [=client=] can then use this [=access token=] to access the required resources at the [=[RS]=] (cf. [[#h-access-token]]).
-
-
