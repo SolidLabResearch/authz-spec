@@ -1,0 +1,74 @@
+<article>
+
+# Accessing resources at the resource server # {#h-access}
+
+<section>
+
+## Attempting access **with** a token ## {#h-access-token}
+
+When the [=client=] attempting to access resources presents the [=[RS]=] with an access token, e.g., a Bearer token passed in the `Authorization` header of the request (cf. [[RFC6750]]), the [=[RS]=] [MUST] determine whether the token is valid and covers the resources and scopes being accessed, as specified in [[!UMA-Grant]], [[UMA-Grant#rs-rpt-response|§ 3.5]] and [[!UMA-Fed]], [[UMA-Fed#introspection-endpoint|§ 5]], using token introspection if necessary (cf. [[RFC7662]]). 
+ 
+  - If this is the case, the [=[RS]=] [SHOULD] process the authorized request.
+  
+  - If, on the contrary, the token is invalid, or does not cover the neccessary resources or scopes, the [=[RS]=] [MUST-NOT] give the [=client=] access, and [MUST] instead respond as if the request were unaccompanied by an [=access token=] (cf. infra).
+
+</section>
+<section>
+
+## Attempting access **without** a token ## {#h-access-no-token}
+
+When the [=client=] attempting to access resources has no token authorizing the access, the [=[RS]=] [MUST] request a permission ticket from the [=[AS]=], as specified in [[!UMA-Grant]], [[UMA-Grant#rs-tokenless-response|§ 3.2]], and described in [[#h-fed-res-ticket]]. 
+
+  - If the [=[AS]=] responds with status code `200`, the [=[RS]=] [SHOULD] let the attempted access succeed.
+
+  - If the [=[AS]=] responds with status code `201` and a `ticket` parameter, the [=[RS]=] [MUST-NOT] let the attempted access succeed. Instead, the [=[RS]=] [MUST] pass this parameter to the [=client=] in the `WWW-Authenticate` header of a `401` response, with the scheme `UMA`, and the `issuer` [URI] of the [=[AS]=] as an additional parameter `as_uri`, as specified in [[!UMA-Grant]], [[UMA-Grant#permission-success-to-client|§ 3.2.1]] (see also [[!RFC9110]], [[RFC9110#field.www-authenticate|§ 11.6.1]]). 
+ 
+ For example:
+
+  ```http
+  HTTP/1.1 401 Unauthorized
+  WWW-Authenticate: UMA
+    as_uri="https://as.example.com",
+    ticket="016f84e8-f9b9-11e0-bd6f-0021cc6004de"
+  ...
+  ```
+
+  ISSUE: look into particular use of realm parameter (vs scope) to limit protection space for user/ticket/type
+
+</section>
+<section>
+
+## Requesting a Ticket ## {#h-fed-res-ticket}
+
+When a client application makes an unauthorized attempt to access resources on an [=[RS]=] [DASH] with an invalid access token, or none at all [DASH] the [=[RS]=] can request a [=permission ticket=] from the relevant [=[AS]=], and provide the ticket to the [=client=] as an indication of the scope of the attempted access, while pointing the [=client=] to the [=[AS]=], as described in [[!UMA-Fed]], [[UMA-Fed#permission-endpoint|§ 4]].
+
+As specified in [[!UMA-Fed]], [[UMA-Fed#rfc.section.4.1|§ 4.1]], the ticket is requested by sending a `POST` request to the `permission_endpoint`, with an `application/json` body containing a [=permission description=] object, or an array of such ojects.
+
+Each [=permission description=] consists of the following fields.
+
+  : <dfn noexport lt="resource identifier`">`resource_id`</dfn>
+  :: [REQUIRED]. A string indicating the [=resource=] in question, as known to the [=[AS]=]. (Note that this identifier might differ from any related [URI] at the side of the [=[RS]=]).
+
+  : <dfn noexport lt="requested scope">`resource_scopes`</dfn>
+  :: [REQUIRED]. An array of strings representing the scopes requested for the [=resource=] in question.
+ 
+Upon receiving a [=permission request=], the [=[AS]=] [MUST] process it according to the following algorithm.
+ 
+  1. <strong>Create a new [=ticket=]</strong>, with an identifier that is unique within the context formed by the [=[RS]=] and the [=[AS]=] itself. 
+ 
+  2. For each [=permission description=] in the [=permission request=]:
+
+     1. **Check the validity** of the [=resource identifier=] and [=scope identifiers=].
+     
+      - If the [=resource identifier=] is invalid, the [=[AS]=] [SHOULD] send an error response to the [=[RS]=] with error code `invalid_resource_id` (cf. [[!UMA-Fed]], [[UMA-Fed#rfc.section.6|§ 6]]).
+
+      - If a [=scope identifier=] is invalid, the [=[AS]=] [SHOULD] send an error response to the [=[RS]=] with error code `invalid_scope` (cf. [[!UMA-Fed]], [[UMA-Fed#rfc.section.6|§ 6]]).
+
+     2. **Add the details** of the [=permission description=] to the newly created [=ticket=].
+
+According to [[!UMA-Fed]], [[UMA-Fed#rfc.section.4.2|§ 4.2]], a successful permission request results in a `201` response containing the `ticket` parameter in an `application/json` body.
+ 
+[A4DS] extends the possible responses of the [=[AS]=] to a permission request, to enable better integration with public resources. When the [=[AS]=] can detect within reasonable time that the resources in question are publically accessible, it [SHOULD] signal this to the [=[RS]=] by sending a `200` response without a body instead. This way, the [=[RS]=] can allow the [=client=] to access public resources without a round-trip to the [=[AS]=], thus increasing performance and making public resources accessible for clients that are not aware of the UMA protocol.
+
+</section>
+</article>
