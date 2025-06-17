@@ -1,0 +1,29 @@
+<aside boilerplate="status">
+
+<h2 id="h-status" class="no-num">Status of this document</h2>
+
+[NO-NORM]
+
+This document is a draft for a technical specification published by the [Knowledge on Web Scale](https://knows.idlab.ugent.be/) (KNoWS) group of the [Internet Technology and Data Science Lab](https://idlab.ugent.be/) (IDLab), an [imec](https://www.imec-int.com/)-affiliated research group at [Ghent University](https://ugent.be/) (UGent).
+
+It is a working document, that has NOT been publically reviewed, but represents active research at its time of publication. As such, document may be subject to changes, and other documents may supersede it at any time. 
+
+The specification proposed in this document is being drafted in multiple stages.
+
+  - **Level 0** describes the interfaces and protocols of the final prototype implementation presented in the white paper [[UMA-Trust inline]] [[UMA-Trust]]. It lays the groundwork for the general flow of the protocol.
+  
+  - **Level 1**, specified in this current draft, builds on Level 0, addressing some minor shortcomings discussed in the white paper, and optimising alignment with existing standards.
+
+  - **Level 2** and higher will build on Level 1, to cover the more extensive questions left open in the white paper.
+
+Comments regarding this document are welcome, via the [GitHub issue tracker](https://github.com/SolidLabResearch/authz-spec/issues/), but the editors do NOT guarantee that this feedback will be processed, or when.
+
+<!-- A (non-exhaustive) list of current IDLab specifications, including the latest revision of this document, can be found on the IDLab specification platform at https://specs.idlab.be/. --> 
+
+<div class="advisement">
+  <span class="sc">**IMPORTANT**</span>
+  
+  This specification is a **Living Document**, which means it is subject to change at any time, without prior notice. It is therefore *possible that you are reading a different iteration* than when you last visited this page. Take notice of the iteration date, mentioned underneath the main title of every document. On averview of all iterations can be found on the [KNoWS specification platform](https://spec.knows.idlab.ugent.be/#a4ds-attempt-a:~:text=Level%201%20(commits)).
+</div>
+
+</aside>

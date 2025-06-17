@@ -1,0 +1,17 @@
+<section>
+
+# Introduction # {#h-intro}
+
+[NO-NORM]
+
+*User-Managed Access* ([UMA]) is a pair of complementary extensions to [[OAuth20 inline]] [[OAuth20]], published by the Kantara Initiative. It comprises the following specifications:
+
+  - [[UMA-Grant inline]], which defines a new <l spec="rfc6749">[=authorization grant=]</l> that enables party-to-party authorization and asynchronous policy configuration [[UMA-Grant]].
+
+  - [[UMA-Fed inline]], which adds a [=protection API=] enabling the federation of [=[RS]s=] and [=authorization servers=], enabling improved automation, central monitoring and a more granular control over resources and scopes [[UMA-Fed]].
+
+This document introduces a profile for the combined [UMA] specifications, called **Authorization for Data Spaces** ([A4DS], read as 'affords'). 
+
+...
+
+</section>
