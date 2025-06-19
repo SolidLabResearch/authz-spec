@@ -44,7 +44,7 @@ Messages from the [=[AS]=] to the [=[RS]=] [SHOULD] be protected with a HTTP Mes
 
 The [=[AS]=] preferably interacts with [=[RO]s=] and other [=agents=] through a (web) application, providing them with a graphical user interface. Since this broadens the attack surface for malicious actors, the [=[AS]=] [MUST] protect the security of its applications adequately by modern standards. 
 
-In particular, web applications for interaction with the [=[RP]=], e.g., during [=claims gathering=] (cf. [=claims interaction endpoint=]), or with the [=RO=], e.g., for policy management, [MUST] implement Cross Origin and Content Security policies, and [=SHOULD=] take into account the sources bundled in [[CRE-636-347]].
+In particular, web applications for interaction with the [=[RP]=], e.g., during [=claims gathering=] (cf. [=claims interaction endpoint=]), or with the [=[RO]=], e.g., for policy management, [MUST] implement Cross Origin and Content Security policies, and [=SHOULD=] take into account the sources bundled in [[CRE-636-347]].
 
 <!-- cf. rfc6454, rfc8820, rfc9110 -->
 

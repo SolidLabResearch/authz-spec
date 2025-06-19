@@ -30,7 +30,7 @@ Upon receiving an [=access request=], the [=[AS]=] [SHOULD] process it according
     
      3. For each element of the split string:
     
-      - If the string is a [=scope identifier=] present in the list of pre-registered [=scopes=] of the [=client=]: <strong>add the [=scope=]</strong> to the list of requested [=scopes=] for each of the [=permission descriptions=] in the target [=ticket=].
+      - If the string is a [=scope identifier=] ({{_id}}) present in the list of pre-registered [=scopes=] of the [=client=]: <strong>add the [=scope=]</strong> to the list of requested [=scopes=] for each of the [=permission descriptions=] in the target [=ticket=].
 
         NOTE: the UMA algorithm keeps these separate, possibly allowing the extra scopes to vary between different messages in the authorization flow/negotiation... again, this seems to parallel the permissions object.
 
@@ -60,7 +60,7 @@ Just like [UMA], the [A4DS] profile does not specify the mechanism by which this
 
 <!-- For each scope in RequestedScopes(resource) that passes the evaluation, add it to a set called CandidateGrantedScopes(resource). -->
 
-When the [=[AS]=] concludes that the provided claims are sufficient to grant the [=client=] access to the requested resources, it responds with an [=access token=] and `Authorization` scheme, as specified in [[!UMA-Grant]], [[UMA-Grant#uma-grant-type|§ 3.3.5]] (see also [[!RFC9110]], [[RFC9110#field.authorization|§ 11.6.2]])). 
+When the [=[AS]=] concludes that the provided claims are sufficient to grant the [=client=] access to the requested resources, it responds with an [=access token=] and [:Authorization:] scheme, as specified in [[!UMA-Grant]], [[UMA-Grant#uma-grant-type|§ 3.3.5]] (see also [[!RFC9110]], [[RFC9110#field.authorization|§ 11.6.2]])). 
  
 For example:
 

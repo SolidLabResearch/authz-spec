@@ -1,51 +1,66 @@
 <article>
 
-# Resource management # {#h-fed}
+# Asset management # {#h-assets}
 
 The [=[AS]=] [MUST] provide a [=[PAPI]=], as defined by [[!UMA-Fed]], to govern its interactions with one or more [=[RS]s=]. This API consists of three endpoints, listed in the [=[AS]'s=] metadata: the [=resource registration endpoint=], the [=permission endpoint=], and the [=introspection endpoint=].
 
 <section>
 
-## Registering a resource ## {#h-fed-res-reg}
+## Creating an asset ## {#h-assets-create}
 
 In order to protect resources with [A4DS], the [=[RS]=] needs to register them at the [=[AS]=]. [[!UMA-Fed]], [[UMA-Fed#resource-registration-endpoint|§ 3]], specifies how to manage these [=resource descriptions=] using CRUD operations within the namespace of the [=resource registration endpoint=].
 
-New resources are registered through a <dfn>registration request</dfn>, which is a `POST` request to the [=resource registration endpoint=], with an `application/json` body containing a [=resource description=] object. The [A4DS] profile also allows the request to contain a [JSON] array of one or more [=resource description=] objects.
+New resources are registered through a <dfn>registration request</dfn>, which is a [:POST:] request to the [=resource registration endpoint=], with an `application/json` body containing a {{resource description}} object. The [A4DS] profile also allows the request to contain a [JSON] array of one or more [=resource description=] objects.
 
 Each [=resource description=] object consists of the following fields:
 
-  : <dfn noexport lt="resource scope">`resource_scopes`</dfn>
+<dl noexport>
+
+  : <dfn dict-member for="ResourceDescription">resource_scopes</dfn>
   :: [REQUIRED]. An array of [=scope descriptions=] or [=scope identifiers=], representing the scopes available for the resource.
 
     [=Scope descriptions=] are [JSON] objects containing the following fields:
 
-    : <dfn noexport lt="scope identifier">`@id`</dfn>
-    :: [RECOMMENDED]. A [URI] identifying the scope. <br/>
-      Within the context of a registration request, this field is [REQUIRED].
+    <dl noexport dfn-type="dict-member" dfn-for="ScopeDescription">
 
-    : <dfn noexport lt="scope's name">`name`</dfn>
-    :: [OPTIONAL]. A human-readable string naming the scope.
+      : <dfn>_id</dfn>
+      :: [RECOMMENDED]. A [URI] identifying the scope. <br/>
+        Within the context of a registration request, this field is [REQUIRED].
 
-    : <dfn noexport lt="scope's description">`description`</dfn>
-    :: [OPTIONAL]. A human-readable string describing the scope at length.
+      : <dfn>name</dfn>
+      :: [OPTIONAL]. A human-readable string naming the scope.
 
-    : <dfn noexport lt="scope's icon">`icon_uri`</dfn>
-    :: [OPTIONAL]. A [URI] for a graphic icon representing the scope.
+      : <dfn>description</dfn>
+      :: [OPTIONAL]. A human-readable string describing the scope at length.
 
-    [=scope identifier=] [URI]s can also be added directly as a string to the [=resource scopes=] array. In that case, the [=[RS]=] [MUST] make sure the [=resource description=] is publicly accessible at that [URI].
+      : <dfn>icon_uri</dfn>
+      :: [OPTIONAL]. A [URI] for a graphic icon representing the scope.
 
-    The [=[RS]=] [SHOULD-NOT] register [=scope identifiers=] that are **not** [URI]s. In case such identifiers are present in the [=resource scopes=] array, the [=[AS]=] [SHOULD] interpret them as a scope without [=scope description=], uniquely identified by the comination of its string value and the identifier of the [=[RS]=].
+    </dl>
 
-    For example, the following [=resource scopes=] express that the resource being registered can be read from and written to.
+    <xmp class="idl">
+      dictionary ScopeDescription {
+        string _id;
+        string name;
+        string description;
+        string icon_uri;
+      };
+    </xmp>
+
+    [=scope identifier=] ({{_id}}) [URI]s can also be added directly as a string to the {{resource_scopes}} array. In that case, the [=[RS]=] [MUST] make sure the [=resource description=] is publicly accessible at that [URI].
+
+    The [=[RS]=] [SHOULD-NOT] register [=scope identifiers=] that are **not** [URI]s. In case such identifiers are present in the {{resource_scopes}} array, the [=[AS]=] [SHOULD] interpret them as a scope without [=scope description=], uniquely identified by the comination of its string value and the identifier of the [=[RS]=].
+
+    For example, the following {{resource_scopes}} array expresses that the resource being registered can be read from and written to.
 
     ```jsonld
     "resource_scopes": [
-     {
-      "@id": "https://example.org/modes/read",
-      "name": "read",
-      "description": "read the resource",
-      "icon_uri": "http://example.org/icons/magnifiying_glass"
-     },
+      {
+        "_id": "https://example.org/modes/read",
+        "name": "read",
+        "description": "read the resource",
+        "icon_uri": "http://example.org/icons/magnifiying_glass"
+      },
      "https://example.org/modes/write"
     ]
     ```
@@ -56,23 +71,22 @@ Each [=resource description=] object consists of the following fields:
     HTTP/1.1 200 OK
     Content-Type: application/json
     ...
-
     {
-     "@id": "https://example.org/modes/write",
-     "name": "write",
-     "description": "write to the resource",
-     "icon_uri": "http://example.org/icons/pen"
+      "_id": "https://example.org/modes/write",
+      "name": "write",
+      "description": "write to the resource",
+      "icon_uri": "http://example.org/icons/pen"
     }
     ```
 
-  : <dfn lt="resource relation">`resource_relations`</dfn>
+  : <dfn dict-member for="ResourceDescription">resource_relations</dfn>
   :: [OPTIONAL]. A [JSON] object representing the structural relations the resource has towards other resources *that are already registered*. 
   
     Keys of the object represent relations <em>**from** the resource being registered **to** the already existing resources</em>. Values are strings, or arrays of strings, which [MUST] be valid identifiers of already registered resources. 
   
-    Although the [=[AS]=] [SHOULD-NOT] interpret the keys of the [=resource relations=] object, and the [=[RS]=] is thus free to mint its own inverse relations for relations that are conventionally expressed in the other direction [DASH] <em>**from** the existing resource **to** the resource being registered</em> [DASH] the [=[RS]=] [MAY] alternatively express such relations by nesting them in a `@reverse` object.
+    Although the [=[AS]=] [SHOULD-NOT] interpret the keys of the {{resource_relations}} object, and the [=[RS]=] is thus free to mint its own inverse relations for relations that are conventionally expressed in the other direction [DASH] <em>**from** the existing resource **to** the resource being registered</em> [DASH] the [=[RS]=] [MAY] alternatively express such relations by nesting them in a `@reverse` object.
 
-    For example, the following [=resource relations=] object describe the resource being registered as derived from resources `A` and `B`, and <em>contained **in**</em> resource `C` [DASH] i.e., reading in reverse, resource `C` contains the the resource being registered.
+    For example, the following {{resource_relations}} object describe the resource being registered as derived from resources |A| and |B|, and <em>contained **in**</em> resource |C| [DASH] i.e., reading in reverse, resource |C| contains the the resource being registered.
 
     ```jsonld
     "resource_relations": {
@@ -86,57 +100,100 @@ Each [=resource description=] object consists of the following fields:
     }
     ```
 
-  : <dfn lt="resource default">`resource_defaults`</dfn>
+  : <dfn dict-member for="ResourceDescription">resource_defaults</dfn>
   :: [OPTIONAL]. A [JSON] object representing the possible relations that future resources might have towards the newly registered resource, as well as the default/inherited scopes the newly registered resource can infer onto those future resources.
 
     Keys of the object represent relations <em>**from** potential future resources **to** the resource being registered</em> [DASH] <span class="inline-note">this is the opposite of the direction in `resource_relations`</span>. Values are objects interpreted as *blueprints* for future resources having the corresponding relation to the newly registered resource.
 
-    Just like with [=resource relations=], the [=[AS]=] [SHOULD-NOT] interpret the keys of the registered [=resource defaults=] object, and the [=[RS]=] [MAY] express inverse relations [DASH] <em>**from** the resource being registered **to** potential future resources</em> [DASH] by nesting them in a `@reverse` object.
+    Just like with {{resource_relations}}, the [=[AS]=] [SHOULD-NOT] interpret the keys of the registered {{resource_defaults}} object, and the [=[RS]=] [MAY] express inverse relations [DASH] <em>**from** the resource being registered **to** potential future resources</em> [DASH] by nesting them in a `@reverse` object.
 
     Currently, the blueprints support the following fields:
     
-      : <dfn lt="default scope">`resource_scopes`</dfn>
-      :: [OPTIONAL]. An array of [=scope identifiers=] or [=scope descriptions=], similar to the top-level [=resource scopes=] field, representing the minimal set of scopes available for future resources that have the corresponding relation to the newly registered resource.
-      
-      ISSUE: go into inheritance of these scopes from the newly registered resource in future resources!
+    <dl noexport dfn-type="dict-member" dfn-for="DefaultDescription">
+
+      : <dfn>resource_scopes</dfn>
+      :: [OPTIONAL]. An array of [=scope identifiers=] or [=scope descriptions=], similar to the top-level {{resource_scopes}} field, representing the minimal set of scopes available for future resources that have the corresponding relation to the newly registered resource.
+    
+    </dl>
   
+    <xmp class="idl">
+      dictionary DefaultDescription {
+        string resource_scopes;
+      };
+    </xmp>
+
+      ISSUE: go into inheritance of these scopes from the newly registered resource in future resources!
+
     Note that the `resource_defaults` object defines the complete set of relations that can be declared from future resources to the resource being registered. If at some point other relations need to be declared, the [=[RS]=] [SHOULD] therefore update the resource registration in which the `resource_defaults` are defined. Moreover, to allow a relation to be declared towards the resource being registered, without specifying any bleuprint defaults for it, the [=[RS]=] [SHOULD] add the relation to the `resource_defaults` with an empty object as corresponding value.
 
     For example:
 
     ```jsonld
     "resource_defaults": {
-     "urn:example:relation:rel_with_no_defaults": {},
-     "urn:example:relation:rel_from_readable_resources": {
-      "scope": [ "https://example.org/modes/read" ]
-     },
-     "@reverse": {  
-      "urn:example:relation:inverse_rel": {
-       "scope": [
-        "https://example.org/modes/read", 
-        "https://example.org/modes/write" 
-       ]
+      "urn:example:relation:rel_with_no_defaults": {},
+      "urn:example:relation:rel_from_readable_resources": {
+        "scope": [ "https://example.org/modes/read" ]
+      },
+      "@reverse": {  
+        "urn:example:relation:inverse_rel": {
+          "scope": [
+            "https://example.org/modes/read", 
+            "https://example.org/modes/write" 
+          ]
+        }
       }
-     }
     }
     ```
-  
-  : <dfn noexport lt="resource type">`type`</dfn>
+
+  : <dfn>type</dfn>
   :: [RECOMMENDED]. A string identifying the semantics of the resource. The [A4DS] profile adds the restriction that this value [SHOULD] be a [URI]. 
 
-  : <dfn noexport lt="resource's name">`name`</dfn>
+  : <dfn>name</dfn>
   :: [RECOMMENDED]. A human-readable string naming the resource.
 
-  : <dfn noexport lt="resource's description">`description`</dfn>
+  : <dfn>description</dfn>
   :: [RECOMMENDED]. A human-readable string describing the resource at length.
 
-  : <dfn noexport lt="resource's icon">`icon_uri`</dfn>
+  : <dfn>icon_uri</dfn>
   :: [RECOMMENDED]. A [URI] for a graphic icon representing the resource.
+
+</dl>
+
+<xmp class="idl">
+  dictionary ResourceDescription {
+    sequence<ScopeDescription> resource_scopes;
+    string resource_relations;
+    string resource_defaults;
+    string type;
+    string name;
+    string description;
+    string icon_uri;
+  };
+</xmp>
+
+A full registration request could then look as follows:
+
+  ```
+  POST /assets/ HTTP/1.1 Content-Type: application/json
+  Authorization: Bearer MHg3OUZEQkZBMjcx
+  ...
+  {  
+    "resource_scopes": [
+      "read-public",
+      "post-updates",
+      "read-private",
+      "http://www.example.com/scopes/all"
+    ],
+    "icon_uri": "http://www.example.com/icons/sharesocial.png",
+    "name": "Tweedl Social Service",
+    "type": "http://www.example.com/rsrcs/socialstream/140-compatible"
+  }
+  ```
 
 </section>
 <section>
 
-## Interpreting a registration request ## {#h-fed-reg-ctx}
+### Interpreting a registration request ### {#h-assets-create-ctx}
 
 The complete semantics of registration requests, as specified above, is given by the following [JSON-LD] context. .
 
@@ -161,13 +218,13 @@ The complete semantics of registration requests, as specified above, is given by
 </section>
 <section>
 
-## Processing a registration request ## {#h-fed-reg-proc}
+### Processing a registration request ### {#h-assets-create-proc}
 
-Upon receiving a valid [=registration request=], the [=[AS]=] [SHOULD] process each [=resource description=] it contains according to the algorithm presented in [[#h-fed-reg-proc-res]].
+Upon receiving a valid [=registration request=], the [=[AS]=] [SHOULD] process each [=resource description=] it contains according to the algorithm presented in [[#h-assets-create-proc-res]].
 
 <section>
 
-### Processing a resource description ### {#h-fed-reg-proc-res}
+#### Processing a resource description #### {#h-assets-create-proc-res}
 
 The following algoritm describes how an [=[AS]=] [SHOULD] process a [=resource description=].
 
@@ -175,54 +232,54 @@ The following algoritm describes how an [=[AS]=] [SHOULD] process a [=resource d
 
   2. **Store the metadata** about the resource's **type**, **name**, **description**, and **icon**.
 
-  3. For each [=resource scope=] of the resource:
+  3. For each element in the {{resource_scopes}} of the resource:
 
-     1. <strong>Process the [=scope description=]</strong> (cf. [[#h-fed-reg-proc-scope]]).
+     1. <strong>Process the [=scope description=]</strong> (cf. [[#h-assets-create-proc-scope]]).
 
      2. **Link the scope description** to the new [=asset=].
 
-  4. For each [=resource relation=] of the resource, and each related [=asset=] listed for that [=resource relation=]:
+  4. For each element of the {{resource_relations}} of the resource, and each related [=asset=] listed for that relation:
 
      1. **Retrieve the metadata** of the related [=asset=].
     
-     2. <strong>Search for an [=asset=] collection</strong> that has the related [=asset=] is the source, and whose determinant relation is the [=resource relation=] in question.
+     2. <strong>Search for an [=asset=] collection</strong> that has the related [=asset=] is the source, and whose determinant relation is the relation in question.
      
       - If such an [=asset=] collection is found, <strong>add the newly created [=asset=]</strong> to it.
 
       - If no such [=asset=] collection is found, the [=[AS]=] [SHOULD] interrupt the processing of the [=registration request=], and respond to the [=[RS]=] with an error.
 
-  5. For each [=resource default=] of the resource:
+  5. For each element of the {{resource_defaults}} of the resource:
 
     1. <strong>Create a new [=asset=] collection</strong>, with an identifier that is unique within the context formed by the [=[RS]=] and the [=[AS]=] itself.
 
-    2. Set the newly created [=asset=] as the **source** of the [=asset=] collection, and the [=resource relation=] as **determinant relation**.
+    2. Set the newly created [=asset=] as the **source** of the [=asset=] collection, and the resource relation as **determinant relation**.
 
-    3. For each [=default scope=] listed for this [=resource default=]:
+    3. For each element of {{resource_scopes}} listed for this element of {{resource_defaults}}:
        
-      1. <strong>Process the [=scope description=]</strong> (cf. [[#h-fed-reg-proc-scope]]).
+      1. <strong>Process the [=scope description=]</strong> (cf. [[#h-assets-create-proc-scope]]).
 
       2. **Link the scope** to the newly created [=asset=] collection.
 
 </section>
 <section>
 
-### Processing a scope description ### {#h-fed-reg-proc-scope}
+#### Processing a scope description #### {#h-assets-create-proc-scope}
 
 The following algoritm describes how an [=[AS]=] [SHOULD] process a [=scope description=]
 
   1. **(Re)construct the URI** of the scope:
    
-    - If a [=scope description=] is given, the <strong>`@id`</strong> is the scope's [URI].
+    - If a [=scope description=] is given, the <strong>`_id`</strong> is the scope's [URI].
 
-    - If a [=scope identifier=] is given in the form of a URI, **this identifier** is the scope's [URI].
+    - If a [=scope identifier=] ({{_id}}) is given in the form of a URI, **this identifier** is the scope's [URI].
     
-    - If a non-[URI] [=scope identifier=] is given, the scope's [URI] is **constructed** by appending this identifier to a base [URI] within the namespace of the [=[AS]=], which [MUST] uniquely and exclusively identify the [=[RS]=] within the context of the [=[AS]=].
+    - If a non-[URI] [=scope identifier=] ({{_id}}) is given, the scope's [URI] is **constructed** by appending this identifier to a base [URI] within the namespace of the [=[AS]=], which [MUST] uniquely and exclusively identify the [=[RS]=] within the context of the [=[AS]=].
 
   2. <strong>Retrieve the [=updated scope description=]</strong>:
    
     - If the [=scope description=] was **given in the request**, this is the [=updated scope description=].
 
-    - If a [=scope identifier=] in the form of a [URI] was given in the request, try to <strong>retrieve the [=scope description=]</strong> from that [URI]. 
+    - If a [=scope identifier=] ({{_id}}) in the form of a [URI] was given in the request, try to <strong>retrieve the [=scope description=]</strong> from that [URI]. 
     
       - If the response is a valid [=scope description=], this is the [=updated scope description=].
     
@@ -230,7 +287,7 @@ The following algoritm describes how an [=[AS]=] [SHOULD] process a [=scope desc
     
       - If the response is **not** a valid [=scope description=], consider the [=updated scope description=] to be **empty**.
 
-    - If a non-[URI] [=scope identifier=] was given in the request, consider the [=updated scope description=] to be **empty**.
+    - If a non-[URI] [=scope identifier=] ({{_id}}) was given in the request, consider the [=updated scope description=] to be **empty**.
 
   3. <strong>Update or create the [=stored scope description=]</strong>: 
    

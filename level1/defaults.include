@@ -12,16 +12,21 @@
  "Metadata Order": "*, !*",
  "Dark Mode": "no",
  "Indent": "2",
- "Max ToC Depth": "3",
+ "Max ToC Depth": "2",
  "Use Dfn Panels": "yes",
  "Remove Multiple Links": "yes",
  "Image Auto Size": "yes",
  "Markup Shorthands": [
-  "markdown yes",
-  "macros-in-autolinks yes",
+  "dfn yes",
+  "biblio yes",
   "markup no",
+  "markdown yes",
+  "repository-links yes",
+  "macros-in-autolinks yes",
+  "algorithm yes",
+  "http yes",
   "css no",
-  "idl no"
+  "idl yes"
  ],
  "Default Highlight": "javascript",
  "Line Numbers": "no",
@@ -29,7 +34,7 @@
   "anchors.bsdata yes",
   "link-defaults.infotree yes"
  ],
- "Assume Explicit For": "yes",
+ "Assume Explicit For": "no",
  "Prepare For TR": "yes",
  "Complain About": [
   "accidental-2119 yes",

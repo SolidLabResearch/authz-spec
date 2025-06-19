@@ -12,6 +12,6 @@ For each [=asset=] in the [=[AS]'s=] knowledge base, the [=[AS]=] [MUST] provide
 
   ISSUE: clarify what 'policies'/'criteria' are, and whether each AS is obliged to support them all, or urged to provide a certain minimum set ....
 
-In providing these affordances to the [=[RO]=], the [=[AS]=] [SHOULD] take into account each [=asset's=] metadata: the [=resource's type=], [=resource's name|name=], [=resource's description|description=] and [=resource's icon|icon=] from the [=resource description=], and the [=scope's name=], [=scope's description|description=] and [=scope's icon|icon=] from the [=scope description=]. These metadata [SHOULD] be used to maximize the potential for the [=[RO]=] to make an **informed policy decision**.
+In providing these affordances to the [=[RO]=], the [=[AS]=] [SHOULD] take into account each [=asset's=] metadata: the {{ResourceDescription/type}}, {{ResourceDescription/name}}, {{ResourceDescription/description}} and {{ResourceDescription/icon}} from the [=resource description=], and the {{ScopeDescription/name}}, {{ScopeDescription/description}} and {{ScopeDescription/icon}} from the [=scope description=]. These metadata [SHOULD] be used to maximize the potential for the [=[RO]=] to make an **informed policy decision**.
 
 </article>

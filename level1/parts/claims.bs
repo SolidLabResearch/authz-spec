@@ -9,21 +9,35 @@
 ## Claim descriptions ## {#h-claims-description}
 
 Metadata about a [=claim=], that is relevant for processing it or presenting it to an [=agent=], can be expressed in a <dfn export>claim description</dfn>, containing the following parameters.
-  
-  : <dfn noexport lt="claim format">`claim_token_format`</dfn>
+
+<dl noexport dfn-type="dict-member" dfn-for="ClaimDescription">
+
+  : <dfn>claim_token_format</dfn>
   :: [OPTIONAL]. A string, or array of strings, indicating the (acceptable) token formats of a claim. The values [SHOULD] be [URI]s.
   
-  : <dfn noexport lt="claim type">`claim_type`</dfn>
+  : <dfn>claim_type</dfn>
   :: [OPTIONAL]. A string, or array of strings, indicating the (expected) semantic type/interpretation of a claim value. The values [SHOULD] be [URI]s.
   
-  : <dfn noexport lt="claim issuer">`issuer`</dfn>
+  : <dfn>issuer</dfn>
   :: [OPTIONAL]. A string, or array of strings, indicating the (acceptable) authorities issuing the claim. The values [SHOULD] be [URI]s.
   
-  : <dfn noexport lt="claim name">`name`</dfn>
+  : <dfn>name</dfn>
   :: [OPTIONAL]. A string that uniquely identifies the claim within context in which the [=claim description=] is used. The value [SHOULD] be a [URI].
 
-  : <dfn noexport lt="claim friendly name">`friendly_name`</dfn>
+  : <dfn>friendly_name</dfn>
   :: [OPTIONAL]. A short human-readable string, which can be uses to display the claim in user interfaces.
+
+</dl>
+
+<xmp class="idl">
+  dictionary ClaimDescription {
+    string claim_token_format;
+    string claim_type;
+    string issuer;
+    string name;
+    string friendly_name;
+  };
+</xmp>
 
   NOTE: Parameters taking an array as value are to be interpreted as the union/disjunction of its elements, i.e., they are to be read as "one of ..."
 

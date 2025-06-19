@@ -42,12 +42,12 @@
   : <dfn noexport>Protection API access token</dfn> (<abbr title="Protection API access token">PAT</abbr>)
   :: The access token used by the [=[RS]=] to access the [=[PAPI]=] of the [=resource owner's=] [=[AS]=], as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=protection API access token=]</l>).
 
-  : <dfn noexport>Resource description</dfn> (<abbr title="Resource description">RD</abbr>)
+  : <dfn noexport dictionary lt="ResourceDescription|resource description">Resource description</dfn> (<abbr title="Resource description">RD</abbr>)
   :: A description of the characteristics of a [=resource=], sufficiently for an [=[AS]=] to protect it. Resource descriptions are typically serialised as a [JSON] document, as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=resource description=]</l>).
 
     An <dfn export>updated resource description</dfn> is a [=resource description=] interpreted as an update to the knowledge base of the [=[AS]=]. Likewise [=resource descriptions=] stored within that knowledge base are called <dfn export>stored resource descriptions</dfn>.
 
-  : <dfn noexport>Scope description</dfn> (<abbr title="Scope description">SD</abbr>)
+  : <dfn noexport dictionary lt="ScopeDescription|scope description">Scope description</dfn> (<abbr title="Scope description">SD</abbr>)
   :: [JSON] document that describes the characteristics of a [=resource scope=] sufficiently for an [=[AS]=] to protect the [=resource=] under this available scope, as defined by [[!UMA-Fed]] (cf. <l spec=uma-fed>[=resource description=]</l>).
 
     An <dfn export>updated scope description</dfn> is a [=scope description=] interpreted as an update to the knowledge base of the [=[AS]=]. Likewise [=scope descriptions=] stored within that knowledge base are called <dfn export>stored scope descriptions</dfn>.
@@ -56,7 +56,7 @@
   :: A [=protected resource=], as viewed from the perspective of the [=[AS]=] protecting it, i.e., the [=resource=] as target of [=policies=]. Although these terms might thus be used interchangeably, within this document they are used separately to provided added clarity regarding the context.
 
   : <dfn local-lt="collection">Asset collection</dfn>
-  :: A virtual [=asset=], representing the (unique, complete) set of [=resources=] that are related to one other specific resource in a specific way. The common relation is called the <dfn export>determinant relation</dfn> of the collection; (the [=asset=] representing) the common target is called the <dfn lt="collection source|source asset">source</dfn>. 
+  :: A virtual [=asset=], representing the (unique, complete) set of [=resources=] that are related to one other specific resource in a specific way. The common relation is called the <dfn export>determinant relation</dfn> of the collection; (the [=asset=] representing) the common target is called the <dfn local-lt="collection source|source asset">source</dfn>. 
 
     Asset collections allow the [=[RO]=] to defined **default** [=policies=] over sets of similar [=resources=]: when a policy is defined on a collection, it will automatically apply to all its members, unless a more specific policy is set on the member itself. An asset collection can therefore also be interpreted as the **prototype** [=asset=] for all (current and future) [=assets=] in that set.
 
