@@ -295,6 +295,244 @@ The following algoritm describes how an [=[AS]=] [SHOULD] process a [=scope desc
 
     - If not, **store** the update (new) scope description as the [=stored scope description=].
 
+    Importantly, the [=[AS]=] [MAY] keep previous metadata about assets that are still registered. This allows the [=[AS]=] to inform an [=[RO]'s=] of changes at the [=[RS]'s=] side.
+
+</section>
+<section>
+
+### Response to a registration request ### {#h-assets-create-response}
+
+After processing a successful registration request, the [=[AS]=] responds to the [=[RS]=] with status code [:201:], referring to the [URI] of the newly created [=asset=] in the [:Location:] header, and a [JSON] body consisting of an object with the following fields.
+
+  : <dfn noexport dict-member dfn-for="RegistrationResponse">_id</dfn>
+  :: [REQUIRED]. A string containing the identifier of the newly created [=asset=], which is unique within the context of the [=[AS]=] and [=[RS]=]. The value [SHOULD] be a [URI] equivalent to the one in the [:Location:] header.
+
+  : <dfn noexport dict-member dfn-for="RegistrationResponse">user_access_policy_uri</dfn>
+  :: [RECOMMENDED]. A string containing the [URI] of a (graphical) user interface, provided by the [=[AS]=], to which the [=[RS]=] can redirect an end-user [=[RO]=] to immediately manage the [policies] related to the newly created [=asset=].
+
+  <xmp class="idl">
+    dictionary RegistrationResponse {
+      string _id;
+      string user_access_policy_uri;
+    };
+  </xmp>
+
+For example:
+
+  ```
+  HTTP/1.1 201 Created
+  Content-Type: application/json
+  Location: /assets/asset1234
+  ...
+  {
+    "_id": "asset1234",
+    "user_access_policy_uri": "http://as.example.com/rs/222/resource/KX3A-39WE/policy"
+  }
+  ```
+
+In contrast, when the processing of the registration request [DASH] according to the algorithm presented in [DASH] results in an error, the [=[AS]=] [MUST] instead respond with an error message containing the status code and [=error description=] resulting from the algorithm (cf. [[#h-errors]]).
+
+</section>
+</section>
+<section>
+
+## Inspecting an asset ## {#h-assets-inspect}
+
+<section>
+
+### Asset overview ### {#h-assets-inspect-overview}
+
+A [=[RS]=] can retrieve the list of [=resources=] it registered at a specific [=[AS]=] by sending a [:GET:] request to the resource registration endpoint. This allows the [=[RS]=] to ensure a correct synchronisation between the state of its (protected) resources and that of the the [=assets=] known by the [=[AS]=].
+
+For example:
+
+  ```
+  GET /assets/ HTTP/1.1
+  Authorization: Bearer 204c69636b6c69
+  ...
+  ```
+
+Upon receiving such a request, the [=[AS]=] [MUST] respond with status code [:200:], and a [JSON] body consisting of an array containing the identifiers of all the assets registered at the [=[AS]=] by that particular [=[RS]=].
+
+For example: 
+
+  ```
+  HTTP/1.1 200 OK
+  Content-Type: application/json
+  ...
+  [  
+    "KX3A-39WE",
+    "9UQU-DUWW"
+  ]
+  ```
+
+</section>
+<section>
+
+### Asset details ### {#h-assets-inspect-details}
+
+More details on a specific asset can be requested by sending a [:GET:] request to the [URI] formed by concatenating the [URI] of the resource registration endpoint with the identifier of the asset in question.
+
+For example: 
+
+  ```
+  GET /assets/KX3A-39WE HTTP/1.1
+  Authorization: Bearer MHg3OUZEQkZBMjcx
+  ...
+  ```
+
+Upon receiving such a request, the [=[AS]=] [MUST] respond with status code [:200:], and a [JSON] body consisting of the referenced resource description, complemented with an `_id` parameter containing the asset's identifier.
+
+</section>
+</section>
+<section>
+
+## Modifying an asset ## {#h-assets-modify}
+
+<section>
+
+### Asset updates ### {#h-assets-modify-update}
+
+[=[RS]s=] can update the resource description of existing assets by sending a [:PUT:] request to the [URI] formed by concatenating the [URI] of the resource registration endpoint with the identifier of the asset in question.
+The [JSON] body of the request [MUST] consist of the resource description with which the [=[RS]=] wants the previously registered [=resource description=] to be replaced. The syntax of the request is thus identical to the one of a new resource registration request.
+
+Upon receiving such a request, the [=[AS]=] [MUST] perform an operation equivalent to the **complete replacement** of the information it has stored concerning the asset in question with the information it extracts from the updated resource description by processing it according to the algorithm presented in [[#h-assets-create-proc]]. In particular, this entails the following:
+
+  A. 
+
+    - **Update the metadata** about the resource's **type**, **name**, **description**, and **icon**.
+        
+      Importantly, the [=[AS]=] [MAY] keep previous metadata about assets that are still registered. This allows the [=[AS]=] to inform an [=[RO]'s=] of changes at the [=[RS]'s=] side.
+        
+    - Update the {{resource scopes}}: 
+    
+      1. Process the [=scope descriptions=] in the update request (cf. [[#h-assets-create-proc-scope]]).
+
+      2. For each [=resource scope=] related to the asset or present in the update request:
+
+        - If the scope is linked to the asset, but not present in the update request: **remove the scope from the asset**.
+
+          Importantly, the [=[AS]=] [MAY] keep the scope descriptions of scopes that are no longer linked to any asset; [=MAY=] keep track of which scopes where linked to which asset in the past; and [MAY] save policies that pertain these scopes. This allows the [=[AS]=] to maintain an [=[RO]'s=] preferences over changes at the [=[RS]'s=] side.
+        
+        - If the scope is present in the update request, but not linked to the asset: **Link the scope** to the [=asset=].
+
+    - Update the {{resource relations}}: 
+
+      1. Record all asset collections the asset is currently part of.
+      
+      2. For each element of the {{resource_relations}} of the update, and each related [=asset=] listed for that relation:
+
+        1. **Retrieve the metadata** of the related [=asset=].
+        
+        2. <strong>Search for an [=asset=] collection</strong> that has the related [=asset=] is the source, and whose determinant relation is the relation in question.
+        
+          - If such an [=asset=] collection is found, <strong>record the collection in the update</strong> to it.
+
+          - If no such [=asset=] collection is found, the [=[AS]=] [SHOULD] interrupt the processing of the [=registration request=], and respond to the [=[RS]=] with an error.
+
+    - Update the {{resource defaults}}: 
+    
+      1. Record the determinant relations of each collection that has the asset as its source.
+
+      2. For each element of the {{resource_defaults}} of the resource:
+
+        - If the recorded list of relations already contains the resource relation being processed:
+
+          1. Record all current scopes listed for the corresponding collection.
+
+          2. <strong>Record the updated scopes in the update</strong> to it.
+      
+        - If not: process it according to the algorithm in [[#h-assets-create-proc-res]].
+
+  B. Assess the difference between the current and updated resource relations, and between the current and updated resource defaults.
+
+    - If they are both identical, perform the update.
+
+      If the update was successful, the [=[AS]=] [MUST] respond with status code [:200:], and a body consisting of a [JSON] object with an `_id` parameter containing the asset's identifier. The [=[AS]=] [SHOULD] also include a {{user_access_policy_uri}}
+
+      For example:
+
+        ```
+        HTTP/1.1 200 OK
+        ...
+        {  
+          "_id": "9UQU-DUWW",
+          "user_access_policy_uri": "http://as.example.com/rs/222/resource/9UQU-DUWW/policy"
+        }
+        ```
+
+      Importantly: During an update, the [=[AS]=] [MAY] change the identifier of an asset, e.g., to maintain an immutable state. If it does so, the [=[AS]=] [SHOULD] change the identifier in its entire knowledge base. If the response contains a different identifier than the target of the request, the [=[RS]=] [SHOULD] update its own mapping accordingly.
+
+    - If they one of them is not identical:
+
+      - The [=[AS]=] [MAY] perform the update, as in the previous point.
+
+      - Alternatively, the [=[AS]=] [MAY] instead respond with status code [:424:], and a body consisting of a [JSON] object with a {{redirect_user}} parameter containing the URI at which the [=[RO]=] can intervene in the process.
+
+        For example: 
+
+          ```
+          HTTP/1.1 424 Failed Dependency
+          ...
+          {  
+            "redirect_user": "http://as.example.com/rs/222/resource/9UQU-DUWW/update"
+          }
+          ```
+
+</section>
+<section>
+
+### Asset deletion ### {#h-assets-modify-delete}
+
+[=Resources=] can be removed from the protection domain of the [=[AS]=] by deleting their corresponding [=assets=] on the [=[AS]=]. The [=[RS]=] does this by sending a [:DELETE:] request to the [URI] formed by concatenating the [URI] of the resource registration endpoint with the identifier of the asset in question.
+
+For example:
+
+  ```
+  DELETE /assets/9UQU-DUWW
+  Authorization: Bearer 204c69636b6c69
+  ...
+  ```
+
+When the [=[AS]=] receives such a request, the [=[AS]=] [MUST] remove all the information it has stored pertaining the asset in question. In particular, this includes:
+
+  1. Remove all collections that have the asset as source (i.e., its {{resource defaults}}); for each collection:
+  
+    1. If the collection still has assets that are part of it: repeat this algorithm for each of those assets.
+
+      The [=[AS]=] [MAY] instead respond to the [=[RS]=] with an error message containing status code [:409:] and [=error description=] {{non_empty_collections}} (cf. [[#h-errors]]). If an [=[RS]=] receives an error response with this error code, and still wants to continue with the deletion, it [SHOULD] send an expanded version of the deletion, that includes the asset identifiers of all resources related to this one.
+
+      Importantly, if deletion is successful [=[RS]=] [SHOULD] consider all resources that were previously related to this asset to be no longer protected by the [=[AS]=].
+
+    2. Delete the collection.
+
+  2. Remove the asset from all collections (.i.e., [=resource relations=]) it is part of.
+
+  3. Delete the asset itself, including its **current metadata** (**type**, **name**, **description**, and **icon**), any **previous metadata** that [=[AS]=] has still stored, and its links to [=resource scopes=], both current and any previous ones.
+
+    Importantly, the [=[AS]=] [MAY] keep the scope descriptions of scopes that are no longer linked to any asset.
+
+If the deletion was sucessful, the [=[AS]=] [MUST] respond with status codes [:200:], [:204:] or [:205:].
+
+For example:
+
+  ```
+  HTTP/1.1 204 No content
+  ...
+  ```
+
+Importantly, even in case of a deletion, the [=[AS]=] [MAY] include a body with a [JSON] object containing a {{user_access_policy_uri}}. This can, for example, allow the [=[RO]=] to immediately access the policy configurations for an higher-level asset or more general interface.
+
+For example:
+
+  ```
+  HTTP/1.1 205 Reset content
+  ...
+  {  
+    "user_access_policy_uri": "http://as.example.com/rs/222/resource/9UQU-DUWW/policy"
+  }
+  ```
+
 </section>
 </section>
 </article>

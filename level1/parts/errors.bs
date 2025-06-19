@@ -95,6 +95,34 @@ The possible error codes defined by [[UMA-Grant]] and [[UMA-Fed]] are the follow
 
 </dl>
 
+The [A4DS] profile adds the following error codes.
+
+<dl noexport>
+  
+  : <dfn dfn-type="enum-value" dfn-for="ErrorCode">non_empty_collections</dfn>
+  :: Status code [:409:]. The [=[AS]=] does not support deletion of assets that are the source of non-empty collections.
+  
+  : <dfn dfn-type="enum-value" dfn-for="ErrorCode">need_interaction</dfn>
+  :: Status code [:424:]. To continue processing the request, the [=[AS]=] needs to interact with the [=[RO]=].
+
+
+    Error descriptions with this error code [MUST] additionally include the following parameters:
+    
+    <dl noexport dfn-type="dict-member" dfn-for="NeedInteractionError">
+      
+      : <dfn>redirect_user</dfn>
+      :: [OPTIONAL]. The interaction endpoint URI to which to redirect the end-user requesting party at the authorization server to continue the process of asset management. If the requesting party is not an end-user, then no client action is possible on receiving the hint.
+
+    </dl>
+
+    <xmp class="idl">
+      dictionary NeedInteractionError : ErrorDescription {
+        string redirect_user;
+      };
+    </xmp>
+
+</dl>
+
 Additionally, if no more specific error code can describe the error better, the [=[AS]=] [MAY] respond with the following error codes defined by [[OAuth20]]:
 
 <dl noexport dfn-type="enum-value" dfn-for="ErrorCode">
